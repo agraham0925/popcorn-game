@@ -2,6 +2,10 @@ console.log('test test')
 
 let time = 30;
 
+const canvas = document.getElementById('mycanvas');
+const ctx = canvas.getContext('2d');
+const speed = 100;
+
 //GAME PLANNING:
 	//OUTCOME ONE: you collect popcorn kernel
 	//OUTCOME TWO: you collect unpopped kernel
@@ -58,7 +62,55 @@ class UnpoppedKernel {
 }
 
 	
-	//bucket
+//bucket
+const bucket = {
+	body: {
+
+	},
+	direction: "right",
+	initialize () {
+		this.body = {
+			x: 300,
+			y: 400,
+			w: 200,
+			h: 200
+		}
+	},
+	drawBucket () {
+		ctx.beginPath();
+		ctx.rect(this.body.x, this.body.y, this.body.w, this.body.h);
+		ctx.fillStyle = ("#b7282f");
+		ctx.fill();
+		ctx.closePath();
+	},
+	move () {
+		switch (bucket.direction) {
+			case 'left':
+			this.body.x = this.body.x - speed;
+			break;
+			case 'right':
+			this.body.x = this.body.x + speed;
+			break;
+		}
+	}
+}
+
+document.addEventListener('keydown', function(event){
+	const key = event.keyCode
+	if(key === 37) {
+		bucket.direction = 'left'
+		bucket.body.x = bucket.body.x - 10;
+	}
+	else if(key === 39) {
+		bucket.direction = 'right'
+		bucket.body.x = bucket.body.x + 10;
+	}
+	ctx.clearRect(0,0, canvas.width, canvas.height)
+	bucket.drawBucket();
+})
+
+bucket.initialize();
+bucket.drawBucket();
 	
 	//player 1
 		//total score
