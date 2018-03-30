@@ -5,6 +5,20 @@ console.log('test test')
 	//OUTCOME TWO: you collect unpopped kernel
 	//OUTCOME THREE: you miss popcorn kernel
 	//OUTCOME FOUR: you miss unpopped kernel
+const game = {
+	kernels: [],
+	currentKernel: null,
+	makeUnpopped() {
+		for(let i = 0; i < 6; i++) {
+			const unpoppedK = new UnpoppedKernel();
+			this.kernels.push(unpoppedK);
+		}
+	},
+	getKernel() {
+		this.currentKernel = this.kernels.pop();
+		console.log(this.currentKernel)
+	}
+}
 
 
 //STEPS TO BUILDING GAME
@@ -12,15 +26,16 @@ console.log('test test')
 //objects:
 	//popcorn kernels
 
-	//unpopped kernels
-		//function to generate random point value
-	class UnpoppedKernel {
-		constructor() {
-			let pointValues = [1, 2, 3];
-			const points = pointValues[Math.floor(Math.random() * pointValues.length)];
-			this.points = points;
-		}	
-	}
+//unpopped kernels
+	//function to generate random point value
+class UnpoppedKernel {
+	constructor() {
+		let pointValues = [1, 2, 3];
+		const points = pointValues[Math.floor(Math.random() * pointValues.length)];
+		this.points = points;
+	}	
+}
+
 	
 	//bucket
 	
@@ -35,6 +50,10 @@ console.log('test test')
 	//scoreboard
 	
 	//timer
+
+
+
+
 
 //NICE TO HAVES
 	//popcorn animation for winner
