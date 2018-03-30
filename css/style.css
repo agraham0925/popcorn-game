@@ -2,6 +2,11 @@ body {
 	background-color: none;
 }
 
+h1 {
+	margin: 0 auto;
+	text-align: center;
+}
+
 #adminbar {
 	background-color: black;
 	color: white;

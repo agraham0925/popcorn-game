@@ -99,11 +99,11 @@ document.addEventListener('keydown', function(event){
 	const key = event.keyCode
 	if(key === 37) {
 		bucket.direction = 'left'
-		bucket.body.x = bucket.body.x - 10;
+		bucket.body.x = bucket.body.x - 50;
 	}
 	else if(key === 39) {
 		bucket.direction = 'right'
-		bucket.body.x = bucket.body.x + 10;
+		bucket.body.x = bucket.body.x + 50;
 	}
 	ctx.clearRect(0,0, canvas.width, canvas.height)
 	bucket.drawBucket();
@@ -129,6 +129,10 @@ const setTimer = () => {
 		$('#timer').text('timer: ' + time + ' seconds')
 	}, 1000);
 }
+
+$('#start').on('click', function (e){
+	setTimer();
+})
 
 
 

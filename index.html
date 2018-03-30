@@ -5,11 +5,6 @@
 	<link rel="stylesheet" type="text/css" href="css/style.css">
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
-	<div id= "adminbar">
-		<div class="admintools" id="timer">timer: 30 seconds</div>
-		<div class="admintools" id="round">round: 1</div>
-		<div class="admintools" id="scoreboard">scoreboard</div>
-	</div>
 	<h1>Popcorn Game</h1>
 	<h2>Instructions</h2>
 	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
@@ -21,9 +16,13 @@
 	<div class="modal1">
 		<button>1 Player</button>
 		<button>2 Players</button>
-		<button class="modal1">Start</button>
+		<button id="start" class="modal1">Start</button>
 	</div>
-
+	<div id= "adminbar">
+		<div class="admintools" id="timer">timer: 30 seconds</div>
+		<div class="admintools" id="round">round: 1</div>
+		<div class="admintools" id="scoreboard">scoreboard</div>
+	</div>
 	<canvas id="mycanvas" width="600" height="600">
 <!-- 		<div id="popcornkernel">popcornkernel</div>
 		<div id="unpoppedkernel"> unpoppedkernel</div>
