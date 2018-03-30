@@ -2,6 +2,17 @@ body {
 	background-color: gray;
 }
 
+#adminbar {
+	background-color: black;
+	color: white;
+	font-weight: 600px;
+	display: flex;
+}
+
+.admintools {
+	flex: 1;
+}
+
 #popcornkernel {
 	background-color: white;
 	height: 50px;

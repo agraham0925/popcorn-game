@@ -1,5 +1,7 @@
 console.log('test test')
 
+let time = 30;
+
 //GAME PLANNING:
 	//OUTCOME ONE: you collect popcorn kernel
 	//OUTCOME TWO: you collect unpopped kernel
@@ -39,16 +41,14 @@ const game = {
 
 //STEPS TO BUILDING GAME
 
-//objects:
-	//popcorn kernels
+//popcorn class
 class Popcorn {
 	constructor() {
 		this.points = 1;
 	}
 }
 
-//unpopped kernels
-	//function to generate random point value
+//unpopped kernels class
 class UnpoppedKernel {
 	constructor() {
 		let pointValues = [1, 2, 3];
@@ -71,6 +71,12 @@ class UnpoppedKernel {
 	//scoreboard
 	
 	//timer
+const setTimer = () => {
+	const timer = setInterval ( () => {
+		time--
+		$('#timer').text('timer: ' + time + ' seconds')
+	}, 1000);
+}
 
 
 
@@ -80,3 +86,4 @@ class UnpoppedKernel {
 	//popcorn animation for winner
 	//different color buckets for each player
 	//top level where unpopped turns into popped
+	//secret bonus round of colorful popcorn if you get a certain score?
