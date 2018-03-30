@@ -1,0 +1,21 @@
+body {
+	background-color: gray;
+}
+
+#popcornkernel {
+	background-color: white;
+	height: 50px;
+	width: 50px;
+}
+
+#unpoppedkernel {
+	background-color: yellow;
+	height: 50px;
+	width: 50px;
+}
+
+#bucket {
+	background-color: red;
+	height: 80px;
+	width: 80px;
+}
