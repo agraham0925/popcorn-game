@@ -1,5 +1,5 @@
 body {
-	background-color: gray;
+	background-color: none;
 }
 
 #adminbar {
@@ -29,4 +29,8 @@ body {
 	background-color: red;
 	height: 80px;
 	width: 80px;
+}
+
+#mycanvas {
+	background-color: gray;
 }
