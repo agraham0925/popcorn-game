@@ -1,6 +1,8 @@
 console.log('test test')
 
-let time = 30;
+let score = 0;
+let time = 5;
+let round = 1;
 
 const canvas = document.getElementById('mycanvas');
 const ctx = canvas.getContext('2d');
@@ -112,30 +114,73 @@ document.addEventListener('keydown', function(event){
 bucket.initialize();
 bucket.drawBucket();
 	
-	//player 1
-		//total score
-		//current score
+//player 1
+	//total score
+	//current score
 	
-	//player 2
-		//total score
-		//current score
+//player 2
+	//total score
+	//current score
 	
-	//scoreboard
+//scoreboard
 	
-	//timer
+//timer
 const setTimer = () => {
 	const timer = setInterval ( () => {
 		time--
+
+		if(time === 0) {
+			clearInterval(timer)
+			round++;
+			$('#round').text('round: ' + round);
+		}
+
 		$('#timer').text('timer: ' + time + ' seconds')
 	}, 1000);
 }
 
+const setUpRound = () => {
+	//this function will include speed of popcorn falling later
+
+	//could i write a loop? while round is < 5 (increase speed each round
+	//time remains same. clear time, round game over after 5 rounds?)
+
+	if(round === 1){
+		//speed 1
+		time = 5;
+	} else if (round === 2) {
+		//speed 2
+		time = 5;
+	} else if (round === 3) {
+		//speed 3
+		time = 5;
+	} else if (round === 4) {
+		//speed 4
+		time = 5;
+	} else if (round === 5) {
+		//speed 5
+		time = 5;
+	} else {
+		$('#timer').text('Game Over!')
+	}
+}
+
 $('#start').on('click', function (e){
 	setTimer();
+	setUpRound();
+	//function to start kernels
 })
 
 
+// SAMPLE CODE FROM A LESSON THAT COULD BE USED FOR POPCORNS/KERNELS
+//function animateCanvas () {
+// 	ctx.clearRect(0,0, canvas.width, canvas.height)
+// 	hero.move(); //this will just update the data that is used by drawBody
+// 	hero.drawBody();
 
+// 	//this next line starts the animation/recursion
+// 	window.requestAnimationFrame(animateCanvas);
+// }
 
 
 //NICE TO HAVES
@@ -143,3 +188,4 @@ $('#start').on('click', function (e){
 	//different color buckets for each player
 	//top level where unpopped turns into popped
 	//secret bonus round of colorful popcorn if you get a certain score?
+	//pause button during round
