@@ -83,26 +83,28 @@ ctx.fill();
 
 ctx.closePath();
 
-function animateCanvas() {
-	//would why start at 0 so this starts at the top of the screen?
-	let y = 30;
-	let x = Math.floor(Math.random() * 600)
-	// Popcorn.drawPopcorn();
+//would why start at 0 so this starts at the top of the screen?
+let y = 30;
+let x = Math.floor(Math.random() * 600)
 
-	//this next line starts the animation/recursion
-	window.requestAnimationFrame(animateCanvas);
-	ctx.clearRect(0,0, canvas.width, canvas.height)
+// function animateCanvas() {
 
-	ctx.beginPath();
-	ctx.arc(x, y, 20, 0, Math.PI * 2)
-	ctx.fillStyle = "#fffbe5";
-	ctx.fill();
-	ctx.closePath();
+// 	// Popcorn.drawPopcorn();
 
-	y += 1
-}
+// 	//this next line starts the animation/recursion
+// 	window.requestAnimationFrame(animateCanvas);
+// 	ctx.clearRect(0,0, canvas.width, canvas.height)
 
-animateCanvas();
+// 	ctx.beginPath();
+// 	ctx.arc(x, y, 20, 0, Math.PI * 2)
+// 	ctx.fillStyle = "#fffbe5";
+// 	ctx.fill();
+// 	ctx.closePath();
+
+// 	y += 1
+// }
+
+// animateCanvas();
 
 //unpopped kernels class
 class UnpoppedKernel {
