@@ -8,11 +8,23 @@ const canvas = document.getElementById('mycanvas');
 const ctx = canvas.getContext('2d');
 const speed = 100;
 
-//GAME PLANNING:
-	//OUTCOME ONE: you collect popcorn kernel
-	//OUTCOME TWO: you collect unpopped kernel
-	//OUTCOME THREE: you miss popcorn kernel
-	//OUTCOME FOUR: you miss unpopped kernel
+//for popcorn animation to fall from top of canvas
+//would y start at 0 so this starts at the top of the screen?
+let y = 30;
+let x = Math.floor(Math.random() * 600)
+
+$('#start').on('click', function (e){
+	setTimer();
+	setUpRound();
+
+	//function to start popcorn falling (eventually also kernels)
+	animateCanvas();
+
+	bucket.move();
+})
+
+
+//the game logic
 const game = {
 	kernels: [],
 	currentKernel: null,
@@ -45,7 +57,7 @@ const game = {
 }
 
 
-//STEPS TO BUILDING GAME
+//GAME OBJECTS & ANIMATIONS
 
 //popcorn class
 class Popcorn {
@@ -67,45 +79,6 @@ class Popcorn {
 	// }
 }
 
-
-//popcorn shape appears on screen
-ctx.beginPath();
-ctx.arc(300, 30, 20, 0, Math.PI * 2)
-ctx.fillStyle = "#fffbe5";
-ctx.fill();
-ctx.closePath();
-
-//kernel shape appears on screen
-ctx.beginPath();
-ctx.arc(100, 30, 20, 0, Math.PI * 2)
-ctx.fillStyle = "#f9f148";
-ctx.fill();
-
-ctx.closePath();
-
-//would why start at 0 so this starts at the top of the screen?
-let y = 30;
-let x = Math.floor(Math.random() * 600)
-
-// function animateCanvas() {
-
-// 	// Popcorn.drawPopcorn();
-
-// 	//this next line starts the animation/recursion
-// 	window.requestAnimationFrame(animateCanvas);
-// 	ctx.clearRect(0,0, canvas.width, canvas.height)
-
-// 	ctx.beginPath();
-// 	ctx.arc(x, y, 20, 0, Math.PI * 2)
-// 	ctx.fillStyle = "#fffbe5";
-// 	ctx.fill();
-// 	ctx.closePath();
-
-// 	y += 1
-// }
-
-// animateCanvas();
-
 //unpopped kernels class
 class UnpoppedKernel {
 	constructor() {
@@ -115,8 +88,50 @@ class UnpoppedKernel {
 	}	
 }
 
+//kernel shape appears on screen
+ctx.beginPath();
+ctx.arc(100, 30, 20, 0, Math.PI * 2)
+ctx.fillStyle = "#f9f148";
+ctx.fill();
+
+ctx.closePath();
+
+//popcorn shape appears and moves on screen
+function animateCanvas() {
+
+	// Popcorn.drawPopcorn();
+
+	window.requestAnimationFrame(animateCanvas);
+	ctx.clearRect(0,0, canvas.width, canvas.height)
+
+	ctx.beginPath();
+	ctx.arc(x, y, 20, 0, Math.PI * 2)
+	ctx.fillStyle = "#fffbe5";
+	ctx.fill();
+	ctx.closePath();
+
+	y += 1
+
+	bucket.initialize();
+	bucket.drawBucket();
+
+	document.addEventListener('keydown', function(event){
+		const key = event.keyCode
+		if(key === 37) {
+			bucket.direction = 'left'
+			bucket.body.x = bucket.body.x - 50;
+		}
+		else if(key === 39) {
+			bucket.direction = 'right'
+			bucket.body.x = bucket.body.x + 50;
+		}
+		ctx.clearRect(0,0, canvas.width, canvas.height)
+		bucket.drawBucket();
+	})
+}
+
 	
-//bucket
+//popcorn bucket
 const bucket = {
 	body: {
 
@@ -149,33 +164,11 @@ const bucket = {
 	}
 }
 
-document.addEventListener('keydown', function(event){
-	const key = event.keyCode
-	if(key === 37) {
-		bucket.direction = 'left'
-		bucket.body.x = bucket.body.x - 50;
-	}
-	else if(key === 39) {
-		bucket.direction = 'right'
-		bucket.body.x = bucket.body.x + 50;
-	}
-	ctx.clearRect(0,0, canvas.width, canvas.height)
-	bucket.drawBucket();
-})
 
-bucket.initialize();
-bucket.drawBucket();
+
+
 	
-//player 1
-	//total score
-	//current score
-	
-//player 2
-	//total score
-	//current score
-	
-//scoreboard
-	
+
 //timer
 const setTimer = () => {
 	const timer = setInterval ( () => {
@@ -196,6 +189,8 @@ const setTimer = () => {
 	}, 1000);
 }
 
+
+//setup round of play
 const setUpRound = () => {
 	//this function will include speed of popcorn falling later
 
@@ -222,23 +217,21 @@ const setUpRound = () => {
 	}
 }
 
-$('#start').on('click', function (e){
-	setTimer();
-	setUpRound();
-	//function to start kernels & popcorn falling
-})
+//scoreboard
 
+//player 1
+	//total score
+	//current score
+	
+//player 2
+	//total score
+	//current score
 
-// SAMPLE CODE FROM A LESSON THAT COULD BE USED FOR POPCORNS/KERNELS
-//function animateCanvas () {
-// 	ctx.clearRect(0,0, canvas.width, canvas.height)
-// 	hero.move(); //this will just update the data that is used by drawBody
-// 	hero.drawBody();
-
-// 	//this next line starts the animation/recursion
-// 	window.requestAnimationFrame(animateCanvas);
-// }
-
+//GAME PLANNING:
+	//OUTCOME ONE: you collect popcorn kernel
+	//OUTCOME TWO: you collect unpopped kernel
+	//OUTCOME THREE: you miss popcorn kernel
+	//OUTCOME FOUR: you miss unpopped kernel
 
 //NICE TO HAVES
 	//popcorn animation for winner
