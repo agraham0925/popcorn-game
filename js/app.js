@@ -58,26 +58,30 @@ class Popcorn {
 			e: 0		
 		}
 	}
-	drawPopcorn() {
-		ctx.beginPath();
-		ctx.arc(this.body.x, this.body.y, this.body.r, this.body.e, Math.PI * 2)
-		ctx.fillStyle = "#fffbe5";
-		ctx.fill();
-		ctx.closePath();
-	}
+	// drawPopcorn() {
+		// ctx.beginPath();
+		// ctx.arc(this.body.x, this.body.y, this.body.r, this.body.e, Math.PI * 2)
+		// ctx.fillStyle = "#fffbe5";
+		// ctx.fill();
+		// ctx.closePath();
+	// }
 }
 
 
+//popcorn shape appears on screen
+ctx.beginPath();
+ctx.arc(300, 30, 20, 0, Math.PI * 2)
+ctx.fillStyle = "#fffbe5";
+ctx.fill();
+ctx.closePath();
 
-
-
+//kernel shape appears on screen
 ctx.beginPath();
 ctx.arc(100, 30, 20, 0, Math.PI * 2)
 ctx.fillStyle = "#f9f148";
 ctx.fill();
 
 ctx.closePath();
-animateCanvas();
 
 // function animateCanvas() {
 // 	ctx.clearRect(0,0, canvas.width, canvas.height)
@@ -169,6 +173,11 @@ const setTimer = () => {
 		}
 
 		$('#timer').text('timer: ' + time + ' seconds')
+
+		if(time === 0 && round === 6) {
+			$('#timer').text('Game Over!')
+			$('#round').text('')
+		}
 	}, 1000);
 }
 
