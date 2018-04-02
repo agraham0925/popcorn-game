@@ -83,13 +83,26 @@ ctx.fill();
 
 ctx.closePath();
 
-// function animateCanvas() {
-// 	ctx.clearRect(0,0, canvas.width, canvas.height)
-// 	Popcorn.drawPopcorn();
+function animateCanvas() {
+	//would why start at 0 so this starts at the top of the screen?
+	let y = 30;
+	let x = Math.floor(Math.random() * 600)
+	// Popcorn.drawPopcorn();
 
-// 	//this next line starts the animation/recursion
-// 	window.requestAnimationFrame(animateCanvas);
-// }
+	//this next line starts the animation/recursion
+	window.requestAnimationFrame(animateCanvas);
+	ctx.clearRect(0,0, canvas.width, canvas.height)
+
+	ctx.beginPath();
+	ctx.arc(x, y, 20, 0, Math.PI * 2)
+	ctx.fillStyle = "#fffbe5";
+	ctx.fill();
+	ctx.closePath();
+
+	y += 1
+}
+
+animateCanvas();
 
 //unpopped kernels class
 class UnpoppedKernel {
@@ -210,7 +223,7 @@ const setUpRound = () => {
 $('#start').on('click', function (e){
 	setTimer();
 	setUpRound();
-	//function to start kernels
+	//function to start kernels & popcorn falling
 })
 
 
