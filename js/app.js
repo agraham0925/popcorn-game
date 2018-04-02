@@ -51,8 +51,41 @@ const game = {
 class Popcorn {
 	constructor() {
 		this.points = 1;
+		this.body = {
+			x: 300,
+			y: 30,
+			r: 20,
+			e: 0		
+		}
+	}
+	drawPopcorn() {
+		ctx.beginPath();
+		ctx.arc(this.body.x, this.body.y, this.body.r, this.body.e, Math.PI * 2)
+		ctx.fillStyle = "#fffbe5";
+		ctx.fill();
+		ctx.closePath();
 	}
 }
+
+
+
+
+
+ctx.beginPath();
+ctx.arc(100, 30, 20, 0, Math.PI * 2)
+ctx.fillStyle = "#f9f148";
+ctx.fill();
+
+ctx.closePath();
+animateCanvas();
+
+// function animateCanvas() {
+// 	ctx.clearRect(0,0, canvas.width, canvas.height)
+// 	Popcorn.drawPopcorn();
+
+// 	//this next line starts the animation/recursion
+// 	window.requestAnimationFrame(animateCanvas);
+// }
 
 //unpopped kernels class
 class UnpoppedKernel {
