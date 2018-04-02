@@ -19,6 +19,13 @@ h1 {
 	flex: 1;
 }
 
+.button {
+	border-style: dotted;
+	border-color: #b7282f;
+	color: #b7282f;
+	font-weight: 700px;
+}
+
 #popcornkernel {
 	background-color: white;
 	height: 50px;

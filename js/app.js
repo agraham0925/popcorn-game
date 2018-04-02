@@ -13,14 +13,17 @@ const speed = 100;
 let y = 30;
 let x = Math.floor(Math.random() * 600)
 
+//for popcorn bucket
+let bucketX = 300;
+let bucketY = 400;
+let bucketDirection = 'right';
+
 $('#start').on('click', function (e){
 	setTimer();
 	setUpRound();
 
 	//function to start popcorn falling (eventually also kernels)
 	animateCanvas();
-
-	bucket.move();
 })
 
 
@@ -89,12 +92,12 @@ class UnpoppedKernel {
 }
 
 //kernel shape appears on screen
-ctx.beginPath();
-ctx.arc(100, 30, 20, 0, Math.PI * 2)
-ctx.fillStyle = "#f9f148";
-ctx.fill();
+// ctx.beginPath();
+// ctx.arc(100, 30, 20, 0, Math.PI * 2)
+// ctx.fillStyle = "#f9f148";
+// ctx.fill();
 
-ctx.closePath();
+// ctx.closePath();
 
 //popcorn shape appears and moves on screen
 function animateCanvas() {
@@ -112,61 +115,27 @@ function animateCanvas() {
 
 	y += 1
 
-	bucket.initialize();
-	bucket.drawBucket();
-
-	document.addEventListener('keydown', function(event){
-		const key = event.keyCode
-		if(key === 37) {
-			bucket.direction = 'left'
-			bucket.body.x = bucket.body.x - 50;
-		}
-		else if(key === 39) {
-			bucket.direction = 'right'
-			bucket.body.x = bucket.body.x + 50;
-		}
-		ctx.clearRect(0,0, canvas.width, canvas.height)
-		bucket.drawBucket();
-	})
-}
-
-	
-//popcorn bucket
-const bucket = {
-	body: {
-
-	},
-	direction: "right",
-	initialize () {
-		this.body = {
-			x: 300,
-			y: 400,
-			w: 200,
-			h: 200
-		}
-	},
-	drawBucket () {
+	//popcorn bucket to catch popcorn
 		ctx.beginPath();
-		ctx.rect(this.body.x, this.body.y, this.body.w, this.body.h);
+		ctx.rect(bucketX, bucketY, 200, 200);
 		ctx.fillStyle = ("#b7282f");
 		ctx.fill();
 		ctx.closePath();
-	},
-	move () {
-		switch (bucket.direction) {
-			case 'left':
-			this.body.x = this.body.x - speed;
-			break;
-			case 'right':
-			this.body.x = this.body.x + speed;
-			break;
-		}
-	}
 }
 
-
-
-
+//event listener to move bucket right and left
+document.addEventListener('keydown', function(event){
+	const key = event.keyCode
+	if(key === 37) {
+		bucketDirection = 'left'
+		bucketX = bucketX - 50;
+	}
+	else if(key === 39) {
+		bucketDirection = 'right'
+		bucketX = bucketX + 50;
+	}
+	ctx.clearRect(0,0, canvas.width, canvas.height)
+})
 	
 
 //timer
