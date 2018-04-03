@@ -86,7 +86,10 @@ function animateCanvas() {
 
 	// If the distance is less than the circle's radius, an intersection occurs
 	var distanceSquared = (distanceX * distanceX) + (distanceY * distanceY);
-	console.log(distanceSquared < (popcornPiece.body.r * popcornPiece.body.r));
+	if(distanceSquared < (popcornPiece.body.r * popcornPiece.body.r)) {
+		score + 1
+		$('#scoreboard').text('scoreboard: ' + (score + 1))
+	}
 }
 
 
