@@ -1,12 +1,35 @@
 console.log('test test')
 
 let score = 0;
-let time = 5;
+let time = 10;
 let round = 1;
+
+// const kernels = [];
+const popcorn = [];
+
+// const gameCorn = [];
 
 const canvas = document.getElementById('mycanvas');
 const ctx = canvas.getContext('2d');
-const speed = 100;
+const speed = 200;
+
+
+
+//unpopped kernels class
+class UnpoppedKernel {
+	constructor() {
+		let pointValues = [1, 2, 3];
+		const points = pointValues[Math.floor(Math.random() * pointValues.length)];
+		this.points = points;
+		this.body = {
+			x: Math.floor(Math.random() * 600),
+			y: 0,
+			r: 20,
+			e: 0
+		}	
+	}
+}
+
 
 //popcorn class
 class Popcorn {
@@ -21,7 +44,23 @@ class Popcorn {
 	}
 }
 
-const popcornPiece = new Popcorn();
+// const popcornPiece = new Popcorn();
+const kernelPiece = new UnpoppedKernel();
+
+function makePopcorn() {
+
+	const popcornPiece = new Popcorn();
+	// add to array of popcorns
+
+	popcorn.push(popcornPiece)
+}
+
+// 	makeUnpopped() {
+// 		for(let i = 0; i < time; i++) {
+//		const kernelPiece = new UnpoppedKernel();
+// 		}
+// 	},
+
 
 //for popcorn bucket
 const bucket = {
@@ -41,27 +80,40 @@ $('#start').on('click', function (e){
 	animateCanvas();
 })
 
+// const frameCount // 60 hz
 
-//popcorn shape appears and moves on screen
+// popcorn shape appears and moves on screen
+// this will get run 60 times per second
 function animateCanvas() {
 
 	window.requestAnimationFrame(animateCanvas);
 	ctx.clearRect(0,0, canvas.width, canvas.height)
 
 	//creates popcorn pieces
-	//should it take two parameters? popcorn Piece and time?
-	//for the length of time, create popcorn Pieces every X amount of seconds?
-		
-			
-	ctx.beginPath();
-	ctx.arc(popcornPiece.body.x, popcornPiece.body.y, popcornPiece.body.r, popcornPiece.body.e, Math.PI * 2)
-	ctx.fillStyle = "#fffbe5";
-	ctx.fill();
-	ctx.closePath();
-				
-	popcornPiece.body.y += 1	
-		
+	//for the length of time, create popcorn Pieces every X amount of seconds?	
 
+
+	for(let i = 0; i < popcorn.length; i++) {
+
+		ctx.beginPath();
+		ctx.arc(popcorn[i].body.x, popcorn[i].body.y, popcorn[i].body.r, popcorn[i].body.e, Math.PI * 2)
+		ctx.fillStyle = "#fffbe5";
+		ctx.fill();
+		ctx.closePath();
+					
+		popcorn[i].body.y += 3
+	}
+
+
+	//creates kernel pieces
+	// ctx.beginPath();
+	// ctx.arc(kernelPiece.body.x, kernelPiece.body.y, kernelPiece.body.r, kernelPiece.body.e, Math.PI * 2)
+	// ctx.fillStyle = "#f9f148";
+	// ctx.fill();
+	// ctx.closePath();
+
+	//kernel.body.y += 3
+	
 	//popcorn bucket to catch popcorn
 	ctx.beginPath();
 	ctx.rect(bucket.body.x, bucket.body.y, bucket.body.w, bucket.body.h);
@@ -69,27 +121,29 @@ function animateCanvas() {
 	ctx.fill();
 	ctx.closePath();
 
-	//Collision Detection
 
+	//Collision Detection
 	function clamp(val, min, max) {
     	return Math.max(min, Math.min(max, val))
 	}
 
-// Find the closest point to the circle within the rectangle
-// Assumes axis alignment! ie rect must not be rotated
-	var closestX = clamp(popcornPiece.body.x, bucket.body.x, bucket.body.x + bucket.body.w);
-	var closestY = clamp(popcornPiece.body.y, bucket.body.y, bucket.body.y + bucket.body.h);
+	// // Find the closest point to the circle (popcorn) within the rectangle (bucket)
+	// var closestX = clamp(popcornPiece.body.x, bucket.body.x, bucket.body.x + bucket.body.w);
+	// var closestY = clamp(popcornPiece.body.y, bucket.body.y, bucket.body.y + bucket.body.h);
 
-	// Calculate the distance between the circle's center and this closest point
-	var distanceX = popcornPiece.body.x - closestX;
-	var distanceY = popcornPiece.body.y - closestY;
+	// // Calculate the distance between the popcorn's center and this closest point
+	// var distanceX = popcornPiece.body.x - closestX;
+	// var distanceY = popcornPiece.body.y - closestY;
 
-	// If the distance is less than the circle's radius, an intersection occurs
-	var distanceSquared = (distanceX * distanceX) + (distanceY * distanceY);
-	if(distanceSquared < (popcornPiece.body.r * popcornPiece.body.r)) {
-		score + 1
-		$('#scoreboard').text('scoreboard: ' + (score + 1))
-	}
+	// // If the distance is less than the popcorn's radius, an intersection occurs
+	// var distanceSquared = (distanceX * distanceX) + (distanceY * distanceY);
+
+	// if(distanceSquared < (popcornPiece.body.r * popcornPiece.body.r)) {
+
+	// 	//point value of popcornPiece added to score if collision occurs 
+	// 	score + popcornPiece.points
+	// 	$('#scoreboard').text('scoreboard: ' + (score + popcornPiece.points))
+	// }
 }
 
 
@@ -106,63 +160,15 @@ document.addEventListener('keydown', function(event){
 	}
 	ctx.clearRect(0,0, canvas.width, canvas.height)
 })
-
-
-//the game logic
-const game = {
-	kernels: [],
-	currentKernel: null,
-	popcorn: [],
-	currentPopcorn: null,
-	makeUnpopped() {
-		for(let i = 0; i < 6; i++) {
-			const unpoppedK = new UnpoppedKernel();
-			this.kernels.push(unpoppedK);
-		}
-	},
-	getKernel() {
-		this.currentKernel = this.kernels.pop();
-		console.log(this.kernels)
-		console.log(this.currentKernel)
-	},
-	makePopcorn() {
-		for(let i = 0; i < 6; i++) {
-			const popcornPiece = new Popcorn();
-			this.popcorn.push(popcornPiece);
-			console.log(this.popcorn)
-			console.log(this.currentPopcorn)
-		}
-	},
-		getPopcorn() {
-		this.currentPopcorn = this.popcorn.pop();
-		console.log(this.popcorn)
-		console.log(this.currentPopcorn)
-	}
-}
-
-
-
-//unpopped kernels class
-class UnpoppedKernel {
-	constructor() {
-		let pointValues = [1, 2, 3];
-		const points = pointValues[Math.floor(Math.random() * pointValues.length)];
-		this.points = points;
-	}	
-}
-
-//kernel shape appears on screen
-// ctx.beginPath();
-// ctx.arc(100, 30, 20, 0, Math.PI * 2)
-// ctx.fillStyle = "#f9f148";
-// ctx.fill();
-
-// ctx.closePath();
 	
 
 //timer
 const setTimer = () => {
 	const timer = setInterval ( () => {
+
+		if(time % 2 == 0) {
+			makePopcorn();
+		}
 		time--
 
 		if(time === 0) {
@@ -190,26 +196,24 @@ const setUpRound = () => {
 
 	if(round === 1){
 		//speed 1
-		time = 5;
+		time = 30;
 	} else if (round === 2) {
 		//speed 2
-		time = 5;
+		time = 30;
 	} else if (round === 3) {
 		//speed 3
-		time = 5;
+		time = 30;
 	} else if (round === 4) {
 		//speed 4
-		time = 5;
+		time = 30;
 	} else if (round === 5) {
 		//speed 5
-		time = 5;
+		time = 30;
 	} else {
 		$('#timer').text('Game Over!')
 	}
 }
 
-//scoreboard
-	//updates due to collision detection
 
 
 //////// need a way to store score and distinguish between the two players///////
