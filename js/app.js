@@ -7,6 +7,9 @@ let round = 1;
 const kernels = [];
 const popcorn = [];
 
+// const player1Scores = [];
+// const player2Scores = [];
+
 const canvas = document.getElementById('mycanvas');
 const ctx = canvas.getContext('2d');
 const speed = 200;
@@ -42,15 +45,16 @@ class Popcorn {
 	}
 }
 
-// const popcornPiece = new Popcorn();
-const kernelPiece = new UnpoppedKernel();
-
 function makePopcorn() {
 
 	const popcornPiece = new Popcorn();
 
 	// add to array of popcorn
 	popcorn.push(popcornPiece)
+	console.log("we just made a popcorn...")
+	console.log(Array.from(popcorn))
+	console.log(popcorn[popcorn.length-1])
+	console.log('------that was all the popcorns and the last popcorn')
 }
 
 function makeKernels() {
@@ -79,13 +83,18 @@ $('#start').on('click', function (e){
 	animateCanvas();
 })
 
-// const frameCount // 60 hz
-
+let frameCount = 0; // 60 hz
+let theAnimation;
 // popcorn shape appears and moves on screen
 // this will get run 60 times per second
+
+function clamp(val, min, max) {
+	return Math.max(min, Math.min(max, val))
+}
+
 function animateCanvas() {
 
-	window.requestAnimationFrame(animateCanvas);
+	theAnimation = window.requestAnimationFrame(animateCanvas);
 	ctx.clearRect(0,0, canvas.width, canvas.height)
 
 	//creates popcorn pieces
@@ -101,15 +110,15 @@ function animateCanvas() {
 	}
 
 	//creates kernel pieces
-	for(let i = 0; i < kernels.length; i++) {
-		ctx.beginPath();
-		ctx.arc(kernels[i].body.x, kernels[i].body.y, kernels[i].body.r, kernels[i].body.e, Math.PI * 2)
-		ctx.fillStyle = "#f9f148";
-		ctx.fill();
-		ctx.closePath();
+	// for(let i = 0; i < kernels.length; i++) {
+	// 	ctx.beginPath();
+	// 	ctx.arc(kernels[i].body.x, kernels[i].body.y, kernels[i].body.r, kernels[i].body.e, Math.PI * 2)
+	// 	ctx.fillStyle = "#f9f148";
+	// 	ctx.fill();
+	// 	ctx.closePath();
 
-		kernels[i].body.y += 3
-	}
+	// 	kernels[i].body.y += 3
+	// }
 
 	//popcorn bucket to catch popcorn
 	ctx.beginPath();
@@ -118,29 +127,34 @@ function animateCanvas() {
 	ctx.fill();
 	ctx.closePath();
 
+	// 
 
+	if(frameCount % 60 == 30) console.log("about to do for loop for frameCount: " + frameCount )
 	//Collision Detection
-	function clamp(val, min, max) {
-    	return Math.max(min, Math.min(max, val))
+	for(let i = 0; i < popcorn.length; i++) { if(frameCount % 60 == 30) { console.log("collision detection popcorn..." + i); console.log(popcorn[i]) }
+
+		// Find the closest point to the circle (popcorn) within the rectangle (bucket)
+		const closestX = clamp(popcorn[i].body.x, bucket.body.x, bucket.body.x + bucket.body.w);
+		const closestY = clamp(popcorn[i].body.y, bucket.body.y, bucket.body.y + bucket.body.h);
+	
+		// Calculate the distance between the popcorn's center and this closest point
+		const distanceX = popcorn[i].body.x - closestX;
+		const distanceY = popcorn[i].body.y - closestY;
+
+		// If the distance is less than the popcorn's radius, an intersection occurs
+		const distanceSquared = (distanceX * distanceX) + (distanceY * distanceY);
+		if(distanceSquared < (popcorn[i].body.r * popcorn[i].body.r)) {
+			
+			//point value of popcornPiece added to score if collision occurs 
+			score = score + popcorn[i].points
+			$('#scoreboard').text('scoreboard: ' + score)
+			popcorn.splice(i, 1);
+			// delete the popcorn
+			
+		}
+
 	}
-
-	// // Find the closest point to the circle (popcorn) within the rectangle (bucket)
-	// var closestX = clamp(popcornPiece.body.x, bucket.body.x, bucket.body.x + bucket.body.w);
-	// var closestY = clamp(popcornPiece.body.y, bucket.body.y, bucket.body.y + bucket.body.h);
-
-	// // Calculate the distance between the popcorn's center and this closest point
-	// var distanceX = popcornPiece.body.x - closestX;
-	// var distanceY = popcornPiece.body.y - closestY;
-
-	// // If the distance is less than the popcorn's radius, an intersection occurs
-	// var distanceSquared = (distanceX * distanceX) + (distanceY * distanceY);
-
-	// if(distanceSquared < (popcornPiece.body.r * popcornPiece.body.r)) {
-
-	// 	//point value of popcornPiece added to score if collision occurs 
-	// 	score + popcornPiece.points
-	// 	$('#scoreboard').text('scoreboard: ' + (score + popcornPiece.points))
-	// }
+	frameCount++;
 }
 
 
@@ -158,16 +172,16 @@ document.addEventListener('keydown', function(event){
 	ctx.clearRect(0,0, canvas.width, canvas.height)
 })
 	
-
+let timer;
 //timer
 const setTimer = () => {
-	const timer = setInterval ( () => {
+	/*const*/ timer = setInterval ( () => {
 
 		if(time % 2 === 0) {
 			makePopcorn();
 		}
 
-		if(time % 2 === 0) {
+		if(time % 3 === 0) {
 			makeKernels();
 		}
 
