@@ -23,11 +23,17 @@ h1 {
 p {
 	font-family: 'Bree Serif', serif;
 	font-size: 16px;
+	color: white;
 }
 
 h2 {
 	font-family: 'Bree Serif', serif;
 	font-size: 35px;
+	color: white;
+}
+
+.modal1 {
+	background-color: #b7282f;
 }
 
 #adminbar {
@@ -36,21 +42,25 @@ h2 {
 	font-weight: 600px;
 	display: flex;
 	width: 600px;
+	height: 30px;
 	text-align: center;
-	margin-left: 100px;
+	padding-top: 5px;
+	/*need something to keep adminbar above canvas*/
 }
 
 .admintools {
 	flex: 1;
+	font-family: 'Bree Serif', serif;
 }
 
 .button {
 	border-style: dotted;
-	border-color: #b7282f;
-	color: #b7282f;
+	border-color: white;
+	color: white;
 	font-weight: 700;
 	font-size: 13px;
 	margin-right: 10px;
+	background-color: #b7282f;
 }
 
 .buttons {

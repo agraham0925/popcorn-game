@@ -82,6 +82,8 @@ $('#start').on('click', function (e){
 	setUpRound();
 
 	animateCanvas();
+
+	$('#start').text('Start Next Round')
 })
 
 //RA Notes:
@@ -186,11 +188,11 @@ document.addEventListener('keydown', function(event){
 	const key = event.keyCode
 	if(key === 37) {
 		bucket.direction = 'left'
-		bucket.body.x = bucket.body.x - 50;
+		bucket.body.x = bucket.body.x - 150;
 	}
 	else if(key === 39) {
 		bucket.direction = 'right'
-		bucket.body.x = bucket.body.x + 50;
+		bucket.body.x = bucket.body.x + 150;
 	}
 	ctx.clearRect(0,0, canvas.width, canvas.height)
 })
@@ -227,6 +229,13 @@ const setTimer = () => {
 		if(time === 0 && round === 6) {
 			$('#timer').text('Game Over!')
 			$('#round').text('')
+			$('#start').text('Play Again')
+
+			// player1Scores.reduce(function(a,b) {
+			// 	return finalScore = a + b
+
+			// 	$('#scoreboard').text('Final Score: ' + finalScore)
+			// })
 		}
 	}, 1000);
 }
@@ -238,18 +247,23 @@ const setUpRound = () => {
 	if(round === 1){
 		time = 30;
 		score = 0;
+		$('#scoreboard').text('Score: ' + score)
 	} else if (round === 2) {
 		time = 30;
 		score = 0;
+		$('#scoreboard').text('Score: ' + score)
 	} else if (round === 3) {
 		time = 30;
 		score = 0;
+		$('#scoreboard').text('Score: ' + score)
 	} else if (round === 4) {
 		time = 30;
-		score = 0;		
+		score = 0;	
+		$('#scoreboard').text('Score: ' + score)	
 	} else if (round === 5) {
 		time = 30;
-		score = 0;		
+		score = 0;
+		$('#scoreboard').text('Score: ' + score)		
 	} else {
 		$('#timer').text('Game Over!')
 	}
