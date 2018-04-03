@@ -7,12 +7,11 @@ let round = 1;
 const kernels = [];
 const popcorn = [];
 
-// const player1Scores = [];
+const player1Scores = [];
 // const player2Scores = [];
 
 const canvas = document.getElementById('mycanvas');
 const ctx = canvas.getContext('2d');
-const speed = 200;
 
 
 
@@ -51,10 +50,12 @@ function makePopcorn() {
 
 	// add to array of popcorn
 	popcorn.push(popcornPiece)
-	console.log("we just made a popcorn...")
-	console.log(Array.from(popcorn))
-	console.log(popcorn[popcorn.length-1])
-	console.log('------that was all the popcorns and the last popcorn')
+
+	//RA Notes:
+	// console.log("we just made a popcorn...")
+	// console.log(Array.from(popcorn))
+	// console.log(popcorn[popcorn.length-1])
+	// console.log('------that was all the popcorns and the last popcorn')
 }
 
 function makeKernels() {
@@ -83,15 +84,16 @@ $('#start').on('click', function (e){
 	animateCanvas();
 })
 
-let frameCount = 0; // 60 hz
-let theAnimation;
-// popcorn shape appears and moves on screen
-// this will get run 60 times per second
+//RA Notes:
+// let frameCount = 0; // 60 hz
+// let theAnimation;
 
 function clamp(val, min, max) {
 	return Math.max(min, Math.min(max, val))
 }
 
+// popcorn shape appears and moves on screen
+// this will get run 60 times per second
 function animateCanvas() {
 
 	theAnimation = window.requestAnimationFrame(animateCanvas);
@@ -127,9 +129,8 @@ function animateCanvas() {
 	ctx.fill();
 	ctx.closePath();
 
-	// 
 
-	// if(frameCount % 60 == 30) console.log("about to do for loop for frameCount: " + frameCount )
+	// RA notes: if(frameCount % 60 == 30) console.log("about to do for loop for frameCount: " + frameCount )
 	//Collision Detection
 	for(let i = 0; i < popcorn.length; i++) { //if(frameCount % 60 == 30) { console.log("collision detection popcorn..." + i); console.log(popcorn[i]) }
 
@@ -145,7 +146,7 @@ function animateCanvas() {
 		const distanceSquared = (distanceX * distanceX) + (distanceY * distanceY);
 		if(distanceSquared < (popcorn[i].body.r * popcorn[i].body.r)) {
 
-			//point value of popcornPiece added to score if collision occurs 
+			//point value of popcorn added to score if collision occurs 
 			score = score + popcorn[i].points
 			$('#scoreboard').text('scoreboard: ' + score)
 
@@ -153,23 +154,23 @@ function animateCanvas() {
 			popcorn.splice(i, 1);
 		}
 	}
-	// frameCount++;
+	// RA notes: frameCount++;
 
 		for(let i = 0; i < kernels.length; i++) {
 
-		// Find the closest point to the circle (popcorn) within the rectangle (bucket)
+		// Find the closest point to the circle (kernels) within the rectangle (bucket)
 		const closestX = clamp(kernels[i].body.x, bucket.body.x, bucket.body.x + bucket.body.w);
 		const closestY = clamp(kernels[i].body.y, bucket.body.y, bucket.body.y + bucket.body.h);
 	
-		// Calculate the distance between the popcorn's center and this closest point
+		// Calculate the distance between the kernel's center and this closest point
 		const distanceX = kernels[i].body.x - closestX;
 		const distanceY = kernels[i].body.y - closestY;
 
-		// If the distance is less than the popcorn's radius, an intersection occurs
+		// If the distance is less than the kernel's radius, an intersection occurs
 		const distanceSquared = (distanceX * distanceX) + (distanceY * distanceY);
 		if(distanceSquared < (kernels[i].body.r * kernels[i].body.r)) {
 
-			//point value of popcornPiece added to score if collision occurs 
+			//point value of kernel decreased from score if collision occurs 
 			score = score - kernels[i].points
 			$('#scoreboard').text('scoreboard: ' + score)
 
@@ -213,6 +214,12 @@ const setTimer = () => {
 			clearInterval(timer)
 			round++;
 			$('#round').text('round: ' + round);
+			player1Scores.push(score);
+			// const clickHandler = (e) => {
+			// 	const startDiv = $(e.currentTarget).detach();
+
+			// 	$(e.currentTarget).text('Start next round')
+			// }
 		}
 
 		$('#timer').text('timer: ' + time + ' seconds')
@@ -227,26 +234,22 @@ const setTimer = () => {
 
 //setup round of play
 const setUpRound = () => {
-	//this function will include speed of popcorn falling later
-
-	//could i write a loop? while round is < 5 (increase speed each round
-	//time remains same. clear time, round game over after 5 rounds?)
 
 	if(round === 1){
-		//speed 1
 		time = 30;
+		score = 0;
 	} else if (round === 2) {
-		//speed 2
 		time = 30;
+		score = 0;
 	} else if (round === 3) {
-		//speed 3
 		time = 30;
+		score = 0;
 	} else if (round === 4) {
-		//speed 4
 		time = 30;
+		score = 0;		
 	} else if (round === 5) {
-		//speed 5
 		time = 30;
+		score = 0;		
 	} else {
 		$('#timer').text('Game Over!')
 	}
@@ -268,5 +271,4 @@ const setUpRound = () => {
 	//popcorn animation for winner
 	//different color buckets for each player
 	//top level where unpopped turns into popped
-	//secret bonus round of colorful popcorn if you get a certain score?
 	//pause button during round
