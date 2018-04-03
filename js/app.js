@@ -4,10 +4,8 @@ let score = 0;
 let time = 10;
 let round = 1;
 
-// const kernels = [];
+const kernels = [];
 const popcorn = [];
-
-// const gameCorn = [];
 
 const canvas = document.getElementById('mycanvas');
 const ctx = canvas.getContext('2d');
@@ -50,16 +48,17 @@ const kernelPiece = new UnpoppedKernel();
 function makePopcorn() {
 
 	const popcornPiece = new Popcorn();
-	// add to array of popcorns
 
+	// add to array of popcorn
 	popcorn.push(popcornPiece)
 }
 
-// 	makeUnpopped() {
-// 		for(let i = 0; i < time; i++) {
-//		const kernelPiece = new UnpoppedKernel();
-// 		}
-// 	},
+function makeKernels() {
+	const kernelPiece = new UnpoppedKernel();
+		
+	//add to array of kernels	
+	kernels.push(kernelPiece)
+}
 
 
 //for popcorn bucket
@@ -90,9 +89,6 @@ function animateCanvas() {
 	ctx.clearRect(0,0, canvas.width, canvas.height)
 
 	//creates popcorn pieces
-	//for the length of time, create popcorn Pieces every X amount of seconds?	
-
-
 	for(let i = 0; i < popcorn.length; i++) {
 
 		ctx.beginPath();
@@ -104,16 +100,17 @@ function animateCanvas() {
 		popcorn[i].body.y += 3
 	}
 
-
 	//creates kernel pieces
-	// ctx.beginPath();
-	// ctx.arc(kernelPiece.body.x, kernelPiece.body.y, kernelPiece.body.r, kernelPiece.body.e, Math.PI * 2)
-	// ctx.fillStyle = "#f9f148";
-	// ctx.fill();
-	// ctx.closePath();
+	for(let i = 0; i < kernels.length; i++) {
+		ctx.beginPath();
+		ctx.arc(kernels[i].body.x, kernels[i].body.y, kernels[i].body.r, kernels[i].body.e, Math.PI * 2)
+		ctx.fillStyle = "#f9f148";
+		ctx.fill();
+		ctx.closePath();
 
-	//kernel.body.y += 3
-	
+		kernels[i].body.y += 3
+	}
+
 	//popcorn bucket to catch popcorn
 	ctx.beginPath();
 	ctx.rect(bucket.body.x, bucket.body.y, bucket.body.w, bucket.body.h);
@@ -166,9 +163,14 @@ document.addEventListener('keydown', function(event){
 const setTimer = () => {
 	const timer = setInterval ( () => {
 
-		if(time % 2 == 0) {
+		if(time % 2 === 0) {
 			makePopcorn();
 		}
+
+		if(time % 2 === 0) {
+			makeKernels();
+		}
+
 		time--
 
 		if(time === 0) {
