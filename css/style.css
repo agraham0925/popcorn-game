@@ -13,6 +13,7 @@ h1 {
 	font-weight: 600px;
 	display: flex;
 	width: 600px;
+	text-align: center;
 }
 
 .admintools {
@@ -23,7 +24,14 @@ h1 {
 	border-style: dotted;
 	border-color: #b7282f;
 	color: #b7282f;
-	font-weight: 700px;
+	font-weight: 700;
+	font-size: 13px;
+	margin-right: 10px;
+}
+
+.buttons {
+	text-align: center;
+	padding: 10px;
 }
 
 #popcornkernel {

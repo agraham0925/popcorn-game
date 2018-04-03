@@ -8,22 +8,100 @@ const canvas = document.getElementById('mycanvas');
 const ctx = canvas.getContext('2d');
 const speed = 100;
 
-//for popcorn animation to fall from top of canvas
-//would y start at 0 so this starts at the top of the screen?
-let y = 30;
-let x = Math.floor(Math.random() * 600)
+//popcorn class
+class Popcorn {
+	constructor() {
+		this.points = 1;
+		this.body = {
+			x: Math.floor(Math.random() * 600),
+			y: 0,
+			r: 20,
+			e: 0		
+		}
+	}
+}
+
+const popcornPiece = new Popcorn();
 
 //for popcorn bucket
-let bucketX = 300;
-let bucketY = 400;
-let bucketDirection = 'right';
+const bucket = {
+	body: {
+		x: 300,
+		y: 400,
+		w: 200,
+		h: 200,
+	},
+	direction: 'right',
+}
 
 $('#start').on('click', function (e){
 	setTimer();
 	setUpRound();
 
-	//function to start popcorn falling (eventually also kernels)
 	animateCanvas();
+})
+
+
+//popcorn shape appears and moves on screen
+function animateCanvas() {
+
+	window.requestAnimationFrame(animateCanvas);
+	ctx.clearRect(0,0, canvas.width, canvas.height)
+
+	//creates popcorn pieces
+	//should it take two parameters? popcorn Piece and time?
+	//for the length of time, create popcorn Pieces every X amount of seconds?
+		
+			
+	ctx.beginPath();
+	ctx.arc(popcornPiece.body.x, popcornPiece.body.y, popcornPiece.body.r, popcornPiece.body.e, Math.PI * 2)
+	ctx.fillStyle = "#fffbe5";
+	ctx.fill();
+	ctx.closePath();
+				
+	popcornPiece.body.y += 1	
+		
+
+	//popcorn bucket to catch popcorn
+	ctx.beginPath();
+	ctx.rect(bucket.body.x, bucket.body.y, bucket.body.w, bucket.body.h);
+	ctx.fillStyle = ("#b7282f");
+	ctx.fill();
+	ctx.closePath();
+
+	//Collision Detection
+
+	function clamp(val, min, max) {
+    	return Math.max(min, Math.min(max, val))
+	}
+
+// Find the closest point to the circle within the rectangle
+// Assumes axis alignment! ie rect must not be rotated
+	var closestX = clamp(popcornPiece.body.x, bucket.body.x, bucket.body.x + bucket.body.w);
+	var closestY = clamp(popcornPiece.body.y, bucket.body.y, bucket.body.y + bucket.body.h);
+
+	// Calculate the distance between the circle's center and this closest point
+	var distanceX = popcornPiece.body.x - closestX;
+	var distanceY = popcornPiece.body.y - closestY;
+
+	// If the distance is less than the circle's radius, an intersection occurs
+	var distanceSquared = (distanceX * distanceX) + (distanceY * distanceY);
+	console.log(distanceSquared < (popcornPiece.body.r * popcornPiece.body.r));
+}
+
+
+//event listener to move bucket right and left
+document.addEventListener('keydown', function(event){
+	const key = event.keyCode
+	if(key === 37) {
+		bucket.direction = 'left'
+		bucket.body.x = bucket.body.x - 50;
+	}
+	else if(key === 39) {
+		bucket.direction = 'right'
+		bucket.body.x = bucket.body.x + 50;
+	}
+	ctx.clearRect(0,0, canvas.width, canvas.height)
 })
 
 
@@ -60,27 +138,6 @@ const game = {
 }
 
 
-//GAME OBJECTS & ANIMATIONS
-
-//popcorn class
-class Popcorn {
-	constructor() {
-		this.points = 1;
-		this.body = {
-			x: 300,
-			y: 30,
-			r: 20,
-			e: 0		
-		}
-	}
-	// drawPopcorn() {
-		// ctx.beginPath();
-		// ctx.arc(this.body.x, this.body.y, this.body.r, this.body.e, Math.PI * 2)
-		// ctx.fillStyle = "#fffbe5";
-		// ctx.fill();
-		// ctx.closePath();
-	// }
-}
 
 //unpopped kernels class
 class UnpoppedKernel {
@@ -98,44 +155,6 @@ class UnpoppedKernel {
 // ctx.fill();
 
 // ctx.closePath();
-
-//popcorn shape appears and moves on screen
-function animateCanvas() {
-
-	// Popcorn.drawPopcorn();
-
-	window.requestAnimationFrame(animateCanvas);
-	ctx.clearRect(0,0, canvas.width, canvas.height)
-
-	ctx.beginPath();
-	ctx.arc(x, y, 20, 0, Math.PI * 2)
-	ctx.fillStyle = "#fffbe5";
-	ctx.fill();
-	ctx.closePath();
-
-	y += 1
-
-	//popcorn bucket to catch popcorn
-		ctx.beginPath();
-		ctx.rect(bucketX, bucketY, 200, 200);
-		ctx.fillStyle = ("#b7282f");
-		ctx.fill();
-		ctx.closePath();
-}
-
-//event listener to move bucket right and left
-document.addEventListener('keydown', function(event){
-	const key = event.keyCode
-	if(key === 37) {
-		bucketDirection = 'left'
-		bucketX = bucketX - 50;
-	}
-	else if(key === 39) {
-		bucketDirection = 'right'
-		bucketX = bucketX + 50;
-	}
-	ctx.clearRect(0,0, canvas.width, canvas.height)
-})
 	
 
 //timer
@@ -187,7 +206,10 @@ const setUpRound = () => {
 }
 
 //scoreboard
+	//updates due to collision detection
 
+
+//////// need a way to store score and distinguish between the two players///////
 //player 1
 	//total score
 	//current score
@@ -196,11 +218,6 @@ const setUpRound = () => {
 	//total score
 	//current score
 
-//GAME PLANNING:
-	//OUTCOME ONE: you collect popcorn kernel
-	//OUTCOME TWO: you collect unpopped kernel
-	//OUTCOME THREE: you miss popcorn kernel
-	//OUTCOME FOUR: you miss unpopped kernel
 
 //NICE TO HAVES
 	//popcorn animation for winner
