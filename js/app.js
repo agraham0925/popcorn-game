@@ -110,15 +110,15 @@ function animateCanvas() {
 	}
 
 	//creates kernel pieces
-	// for(let i = 0; i < kernels.length; i++) {
-	// 	ctx.beginPath();
-	// 	ctx.arc(kernels[i].body.x, kernels[i].body.y, kernels[i].body.r, kernels[i].body.e, Math.PI * 2)
-	// 	ctx.fillStyle = "#f9f148";
-	// 	ctx.fill();
-	// 	ctx.closePath();
+	for(let i = 0; i < kernels.length; i++) {
+		ctx.beginPath();
+		ctx.arc(kernels[i].body.x, kernels[i].body.y, kernels[i].body.r, kernels[i].body.e, Math.PI * 2)
+		ctx.fillStyle = "#f9f148";
+		ctx.fill();
+		ctx.closePath();
 
-	// 	kernels[i].body.y += 3
-	// }
+		kernels[i].body.y += 3
+	}
 
 	//popcorn bucket to catch popcorn
 	ctx.beginPath();
@@ -129,9 +129,9 @@ function animateCanvas() {
 
 	// 
 
-	if(frameCount % 60 == 30) console.log("about to do for loop for frameCount: " + frameCount )
+	// if(frameCount % 60 == 30) console.log("about to do for loop for frameCount: " + frameCount )
 	//Collision Detection
-	for(let i = 0; i < popcorn.length; i++) { if(frameCount % 60 == 30) { console.log("collision detection popcorn..." + i); console.log(popcorn[i]) }
+	for(let i = 0; i < popcorn.length; i++) { //if(frameCount % 60 == 30) { console.log("collision detection popcorn..." + i); console.log(popcorn[i]) }
 
 		// Find the closest point to the circle (popcorn) within the rectangle (bucket)
 		const closestX = clamp(popcorn[i].body.x, bucket.body.x, bucket.body.x + bucket.body.w);
@@ -144,17 +144,39 @@ function animateCanvas() {
 		// If the distance is less than the popcorn's radius, an intersection occurs
 		const distanceSquared = (distanceX * distanceX) + (distanceY * distanceY);
 		if(distanceSquared < (popcorn[i].body.r * popcorn[i].body.r)) {
-			
+
 			//point value of popcornPiece added to score if collision occurs 
 			score = score + popcorn[i].points
 			$('#scoreboard').text('scoreboard: ' + score)
-			popcorn.splice(i, 1);
-			// delete the popcorn
-			
-		}
 
+			// delete the popcorn
+			popcorn.splice(i, 1);
+		}
 	}
-	frameCount++;
+	// frameCount++;
+
+		for(let i = 0; i < kernels.length; i++) {
+
+		// Find the closest point to the circle (popcorn) within the rectangle (bucket)
+		const closestX = clamp(kernels[i].body.x, bucket.body.x, bucket.body.x + bucket.body.w);
+		const closestY = clamp(kernels[i].body.y, bucket.body.y, bucket.body.y + bucket.body.h);
+	
+		// Calculate the distance between the popcorn's center and this closest point
+		const distanceX = kernels[i].body.x - closestX;
+		const distanceY = kernels[i].body.y - closestY;
+
+		// If the distance is less than the popcorn's radius, an intersection occurs
+		const distanceSquared = (distanceX * distanceX) + (distanceY * distanceY);
+		if(distanceSquared < (kernels[i].body.r * kernels[i].body.r)) {
+
+			//point value of popcornPiece added to score if collision occurs 
+			score = score - kernels[i].points
+			$('#scoreboard').text('scoreboard: ' + score)
+
+			// delete the kernel
+			kernels.splice(i, 1);
+		}
+	}
 }
 
 
