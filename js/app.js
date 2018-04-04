@@ -7,6 +7,13 @@ let round = 1;
 const kernels = [];
 const popcorn = [];
 
+// const players = [];
+// players[0] = "Player 1";
+// players[1] = "Player 2";
+
+// let whosTurn = 0;
+// console.log(players[whosTurn])
+
 const player1Scores = [];
 // const player2Scores = [];
 
@@ -86,6 +93,25 @@ $('#start').on('click', function (e){
 	$('#start').text('Start Next Round')
 })
 
+
+//NEED TO FIGURE OUT WHERE TO PLACE FUNCTION AND FUNCTION CALL
+// SHOULD ONLY BE USED IF A PLAYER CLICKS TWO PLAYERS. SHOULD NOT BE USED IF PLAYER 1 SELECTED
+// $('#players2').on('click', function (){
+// 	//function to change players. Function is called when time is 0
+// 	function toggle() {
+// 		if(whosTurn === 0) { 
+// 			whosTurn = 1;
+// 		} else {
+// 			whosTurn = 0;
+// 		} console.log("It's " + players[whosTurn] + " turn.")
+// 	}
+// })
+
+// toggle();
+
+
+
+
 //RA Notes:
 // let frameCount = 0; // 60 hz
 // let theAnimation;
@@ -150,7 +176,7 @@ function animateCanvas() {
 
 			//point value of popcorn added to score if collision occurs 
 			score = score + popcorn[i].points
-			$('#scoreboard').text('scoreboard: ' + score)
+			$('#scoreboard').text('score: ' + score)
 
 			// delete the popcorn
 			popcorn.splice(i, 1);
@@ -231,11 +257,11 @@ const setTimer = () => {
 			$('#round').text('')
 			$('#start').text('Play Again')
 
-			// player1Scores.reduce(function(a,b) {
-			// 	return finalScore = a + b
-
-			// 	$('#scoreboard').text('Final Score: ' + finalScore)
-			// })
+			player1Scores.reduce(function(a,b) {
+				return finalScore = a + b
+			})
+			
+			$('#scoreboard').text('Final Score: ' + finalScore)
 		}
 	}, 1000);
 }
@@ -286,3 +312,9 @@ const setUpRound = () => {
 	//different color buckets for each player
 	//top level where unpopped turns into popped
 	//pause button during round
+
+
+
+
+
+
