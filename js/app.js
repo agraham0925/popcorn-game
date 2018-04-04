@@ -1,21 +1,38 @@
 console.log('test test')
 
 let score = 0;
-let time = 10;
+let time = 20;
 let round = 1;
 
+//variable to help control if animation is run or not
+let control = false;
+
+//arrays to hold the kernels and popcorns created from classes
 const kernels = [];
 const popcorn = [];
 
-// const players = [];
-// players[0] = "Player 1";
-// players[1] = "Player 2";
+//array for number of players 
+const players = [];
+players[0] = "Player 1";
 
-// let whosTurn = 0;
-// console.log(players[whosTurn])
+//one player mode is default. This button must be clicked for two players
+$('#players2').on('click', function (e) {
+	players.push("Player 2")
+	console.log('there are now two players')
+})
 
+//determines whos turn it is in 2-player mode
+let whosTurn = 0;
+
+//arrays to hold player scores for each round
 const player1Scores = [];
-// const player2Scores = [];
+const player2Scores = [];
+
+//variables to describe final scores
+let finalScore1;
+let finalScore2;
+
+
 
 const canvas = document.getElementById('mycanvas');
 const ctx = canvas.getContext('2d');
@@ -88,9 +105,15 @@ $('#start').on('click', function (e){
 	setTimer();
 	setUpRound();
 
-	animateCanvas();
+	control = true;
+
+	if(control === true) {
+		animateCanvas();
+	}
 
 	$('#start').text('Start Next Round')
+
+	console.log(control)
 })
 
 
@@ -114,7 +137,7 @@ $('#start').on('click', function (e){
 
 //RA Notes:
 // let frameCount = 0; // 60 hz
-// let theAnimation;
+let theAnimation;
 
 function clamp(val, min, max) {
 	return Math.max(min, Math.min(max, val))
@@ -136,7 +159,7 @@ function animateCanvas() {
 		ctx.fill();
 		ctx.closePath();
 					
-		popcorn[i].body.y += 3
+		popcorn[i].body.y += 5
 	}
 
 	//creates kernel pieces
@@ -147,7 +170,7 @@ function animateCanvas() {
 		ctx.fill();
 		ctx.closePath();
 
-		kernels[i].body.y += 3
+		kernels[i].body.y += 5
 	}
 
 	//popcorn bucket to catch popcorn
@@ -238,73 +261,135 @@ const setTimer = () => {
 
 		time--
 
-		if(time === 0) {
+		if(time === 0 && whosTurn === 0) {
 			clearInterval(timer)
+			control = false;
 			round++;
-			$('#round').text('round: ' + round);
 			player1Scores.push(score);
+			whosTurn = 1;
+			
+			// toggle();
 			// const clickHandler = (e) => {
 			// 	const startDiv = $(e.currentTarget).detach();
 
 			// 	$(e.currentTarget).text('Start next round')
 			// }
+		} else if(time === 0 && whosTurn === 1) {
+			clearInterval(timer)
+			control = false;
+			round++;
+			player2Scores.push(score);
+			whosTurn = 0;
 		}
 
 		$('#timer').text('timer: ' + time + ' seconds')
-
-		if(time === 0 && round === 6) {
-			$('#timer').text('Game Over!')
-			$('#round').text('')
-			$('#start').text('Play Again')
-
-			player1Scores.reduce(function(a,b) {
-				return finalScore = a + b
-			})
-			
-			$('#scoreboard').text('Final Score: ' + finalScore)
-		}
 	}, 1000);
 }
 
 
 //setup round of play
 const setUpRound = () => {
-
-	if(round === 1){
-		time = 30;
-		score = 0;
+	//one player mode is default
+	if(players.length === 1) {
+		if(round === 1){
+			time = 20;
+			score = 0;
+			$('#round').text('round: ' + round);
+			$('#scoreboard').text('Score: ' + score)
+		} else if (round === 2) {
+			time = 20;
+			score = 0;
+			$('#round').text('round: ' + round);
+			$('#scoreboard').text('Score: ' + score)
+		} else if (round === 3) {
+			time = 20;
+			score = 0;
+			$('#round').text('round: ' + round);
+			$('#scoreboard').text('Score: ' + score)	
+		} else {
+			$('#timer').text('Game Over!')
+		}
+	//runs if two players is clicked on
+	} else if(players.length === 2) {
+		if(round === 1){
+			time = 20;
+			score = 0;
+			$('#round').text('Round: 1')
+			$('#scoreboard').text('Score: ' + score)
+		} else if (round === 2) {
+			time = 20;
+			score = 0;
+			$('#round').text('Round: 1')
+			$('#scoreboard').text('Score: ' + score)
+		} else if (round === 3) {
+			time = 20;
+			score = 0;
+			$('#round').text('Round: 2')
+			$('#scoreboard').text('Score: ' + score)
+		} else if (round === 4) {
+			time = 20;
+			score = 0;
+			$('#round').text('Round: 2')	
+			$('#scoreboard').text('Score: ' + score)	
+		} else if (round === 5) {
+			time = 20;
+			score = 0;
+		$('#round').text('Round: 3')
 		$('#scoreboard').text('Score: ' + score)
-	} else if (round === 2) {
-		time = 30;
-		score = 0;
-		$('#scoreboard').text('Score: ' + score)
-	} else if (round === 3) {
-		time = 30;
-		score = 0;
-		$('#scoreboard').text('Score: ' + score)
-	} else if (round === 4) {
-		time = 30;
-		score = 0;	
-		$('#scoreboard').text('Score: ' + score)	
-	} else if (round === 5) {
-		time = 30;
-		score = 0;
-		$('#scoreboard').text('Score: ' + score)		
-	} else {
-		$('#timer').text('Game Over!')
+		} else if (round === 6) {
+			time = 20;
+			score = 0;
+			$('#round').text('Round: 3')
+			$('#scoreboard').text('Score: ' + score)		
+		} else {
+			$('#timer').text('Game Over!')
+		}		
 	}
 }
 
 
+// const reportScore = () => {
+// 		if(time === 0 && round === 4 && players.length === 1) {
+// 		$('#timer').text('')
+// 		$('#round').text('Game Over!')
+// 		$('#start').text('Play Again')
 
-//////// need a way to store score and distinguish between the two players///////
-//player 1
-	//total score
-	//current score
-	
-//player 2
-	//total score
-	//current score
+// 		player1Scores.reduce(function(a,b) {
+// 			return finalScore = a + b
+// 		})
+			
+// 		$('#scoreboard').text('Final Score: ' + finalScore)
+
+// 	} else if (time === 0 && round === 6 && players.length === 2) {
+// 		player1Scores.reduce(function(a,b) {
+// 		return finalScore1 = a + b	
+// 		console.log(player1Scores)
+
+// 		player2Scores.reduce(function(a,b) {
+// 		return finalScore2 = a + b	
+// 		console.log(player2Scores)
+// 	})
+
+// 	displayWinner();	
+// }
+
+
+
+// function displayWinner = () {
+// 		if(finalScore1 > finalScore2) {
+
+// 			$('#scoreboard').text('Player 1 wins!')
+
+// 		} else if (player1Scores === player2Scores) {
+// 			$('#scoreboard').text("It's a tie!")
+
+// 		} else {
+// 			$('#scoreboard').text('Player 2 wins!')
+// 		}
+// 	}
+// }
+
+// reportScore();
 
 
 //NICE TO HAVES
@@ -312,9 +397,4 @@ const setUpRound = () => {
 	//different color buckets for each player
 	//top level where unpopped turns into popped
 	//pause button during round
-
-
-
-
-
-
+	//collision detect only on top of the bucket, not sides

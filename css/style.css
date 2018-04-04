@@ -3,26 +3,17 @@
 	src: url('font/popcorn.ttf');
 }
 
-/*@font-face {
-	font-family: 'KR Popcorn Time!';
-	src: url('font/KR Popcorn Time!.ttf');
-}*/
-
-body {
-	background-color: none;
-}
-
 h1 {
 	margin: 0 auto;
 	text-align: center;
 	font-family: 'popcorn';
-	font-size: 50px;
+	font-size: 85px;
 	color: #b7282f;
 }
 
 p {
 	font-family: 'Bree Serif', serif;
-	font-size: 16px;
+	font-size: 18px;
 	color: white;
 }
 
@@ -41,16 +32,18 @@ h2 {
 	color: white;
 	font-weight: 600px;
 	display: flex;
-	width: 600px;
+/*	width: 600px;*/
 	height: 30px;
 	text-align: center;
 	padding-top: 5px;
+	flex: 1
 	/*need something to keep adminbar above canvas*/
 }
 
 .admintools {
 	flex: 1;
 	font-family: 'Bree Serif', serif;
+	font-size: 20px;
 }
 
 .button {
@@ -92,7 +85,7 @@ h2 {
 
 #mycanvas {
 	background-color: gray;
-	display: inline;
+/*	display: inline;*/
 }
 
 

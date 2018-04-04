@@ -1,16 +1,23 @@
 <!DOCTYPE html>
+
 <html>
+
 <head>
 	<title>Popcorn Game</title>
+
 	<link rel="stylesheet" type="text/css" href="css/style.css">
 	<link href="https://fonts.googleapis.com/css?family=Bree+Serif" rel="stylesheet">
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
+
+<body>
+
 	<h1>Popcorn Game</h1>
 
 	<div class = "modal1">
-<!-- 		<span class="close-button">&times;</span> -->
+
 		<h2 class="modal-content">How to Play:</h2>
+
 		<p class="modal-content">Begin by selecting 1 to 2 players. Each round, collect as many popcorn pieces as you can in your bucket. Each popcorn piece collected in the bucket gives you 1 point. Collect any unpopped kernels, lose 1-3 points (point values for unpopped kernels are random!). Player with the most points at the end of 5 rounds wins! </p>
 
 		<div class="buttons" class="modal-content">
@@ -19,20 +26,21 @@
 			<button class="button" id="start" class="modal1">Start</button>
 		</div>
 	</div>
-	
-	<div id= "adminbar">
-		<div class="admintools" id="timer">timer: 30 seconds</div>
-		<div class="admintools" id="round">round: 1</div>
-		<div class="admintools" id="scoreboard">score: 0</div>
-	</div>
-	<div id="canvas-container">
-		<canvas id="mycanvas" width="600" height="600"></canvas>
+
+	<div id="gameboard">
+
+		<div id= "adminbar">
+			<div class="admintools" id="timer">timer: 20 seconds</div>
+			<div class="admintools" id="round">round: 1</div>
+			<div class="admintools" id="scoreboard">score: 0</div>
+		</div>
+
+		<div id="canvas-container">
+			<canvas id="mycanvas" width="800" height="800"></canvas>
+		</div>
 	</div>
 
-
-	</div>
-<body>
-
-<script type="text/javascript" src="js/app.js"></script>
+	<script type="text/javascript" src="js/app.js"></script>
 </body>
+
 </html>
