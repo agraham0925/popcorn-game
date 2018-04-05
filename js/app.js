@@ -5,12 +5,11 @@ let time = 20;
 let round = 1;
 
 //controls if animation runs
-// let control = false;
 let theAnimation;
 
 //arrays to hold the kernels and popcorns created from classes
-const kernels = [];
-const popcorn = [];
+let kernels = [];
+let popcorn = [];
 
 //array for number of players 
 const players = [];
@@ -73,7 +72,7 @@ function makePopcorn() {
 
 	const popcornPiece = new Popcorn();
 
-
+	//add to array of popcorn
 	popcorn.push(popcornPiece)
 }
 
@@ -102,21 +101,10 @@ $('#start').on('click', function (e){
 
 	animateCanvas();
 
-	// control = true;
-
 	$('#start').text('Start Next Round')
 
 })
 
-// function playAnimation() {
-// 	if(control === true) {
-// 		animateCanvas();
-// 	} else  if (control === false){
-// 		ctx.clearRect(0, 0, canvas.width, canvas.height);
-// 	}
-// }
-
-// playAnimation();
 
 function clamp(val, min, max) {
 	return Math.max(min, Math.min(max, val))
@@ -126,7 +114,7 @@ function clamp(val, min, max) {
 function animateCanvas() {
 
 	theAnimation = window.requestAnimationFrame(animateCanvas);
-	ctx.clearRect(0,0, canvas.width, canvas.height)
+	ctx.clearRect(0, 0, canvas.width, canvas.height)
 
 	//creates popcorn pieces
 	for(let i = 0; i < popcorn.length; i++) {
@@ -243,6 +231,10 @@ const setTimer = () => {
 			round++;
 			player1Scores.push(score);
 			window.cancelAnimationFrame(theAnimation);
+			kernels = [];
+			popcorn = [];
+			ctx.clearRect(0, 0, canvas.width, canvas.height);
+
 
 		} else if(time === 0 && players.length === 2) {
 			if(whosTurn === 0) {
@@ -250,16 +242,16 @@ const setTimer = () => {
 				round++;
 				player1Scores.push(score);	
 				whosTurn = 1;	
-				control = false;
 				window.cancelAnimationFrame(theAnimation);	
+				$('#whosTurn').text("It's Player Two's turn.")
 
 			} else {
 				clearInterval(timer)
 				round ++;
 				player2Scores.push(score);
 				whosTurn = 0;
-				control = false;
 				window.cancelAnimationFrame(theAnimation);
+				$('#whosTurn').text("It's Player One's turn.")
 			}
 		}
 
@@ -335,7 +327,9 @@ const reportScore = () => {
 
 		$('#timer').text('')
 		$('#round').text('Game Over!')
-		$('#start').text('Play Again')
+		$('#start').text('Play Again').on('click', function (e) {
+			location.reload();
+		})
 
 		player1Scores.reduce(function(a,b) {
 			return finalScore = a + b
@@ -362,21 +356,21 @@ const reportScore = () => {
 // if two players, this function called to declare/display winner and final scores
 const displayWinner = () => {
 
+		$('#timer').text('Game Over!')
+		$('#scoreboard').text('Player One: ' + finalScore1 + ' Player Two: ' + finalScore2)
+
 	if(finalScore1 > finalScore2) {
 
-		$('#timer').text('Game Over!')
 		$('#round').text('Player 1 wins!')
-		$('#scoreboard').text('Player One: ' + finalScore1 + 'Player Two: ' + finalScore2)
 
 	} else if (player1Scores === player2Scores) {
-		$('#timer').text('Game Over!')
+
 		$('#round').text("It's a tie!")
-		$('#scoreboard').text('Player One: ' + finalScore1 + 'Player Two: ' + finalScore2)
 
 	} else {
-		$('#timer').text('Game Over!')
+
 		$('#round').text('Player 2 wins!')
-		$('#scoreboard').text('Player One: ' + finalScore1 + ' Player Two: ' + finalScore2)
+
 	}
 }
 
