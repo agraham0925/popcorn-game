@@ -10,6 +10,7 @@ How to Play:
 	- Player with the most points at the end of 5 rounds wins!
 
 USER STORIES:
+//ADD PHOTOS HERE
 	- User selects 1-2 players
 	- Hit start to begin play
 
@@ -28,10 +29,12 @@ USER STORIES:
 
 TECHNOLOGIES USED:
 	- jQuery
-	- Canvas (?)
+	- Canvas
 
 INSTALLATION INSTRUCTIONS:
 	- link to game once available
 
 UNSOLVED PROBLEMS:
-	- TBD
+	- The game speeds up the animation on its own due to repeat calls of the animation function rather than written code to speed animation
+	- would like to incorporate images of actual popcorn and popcorn bucket
+	- DRY code???

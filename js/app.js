@@ -4,8 +4,6 @@ let score = 0;
 let time = 20;
 let round = 1;
 
-//variable to help control if animation is run or not
-let control = false;
 
 //arrays to hold the kernels and popcorns created from classes
 const kernels = [];
@@ -29,8 +27,8 @@ const player1Scores = [];
 const player2Scores = [];
 
 //variables to describe final scores
-let finalScore1;
-let finalScore2;
+let finalScore1 = 0;
+let finalScore2 = 0;
 
 
 
@@ -105,39 +103,16 @@ $('#start').on('click', function (e){
 	setTimer();
 	setUpRound();
 
-	control = true;
-
-	if(control === true) {
-		animateCanvas();
-	}
+	animateCanvas();
 
 	$('#start').text('Start Next Round')
 
-	console.log(control)
 })
-
-
-//NEED TO FIGURE OUT WHERE TO PLACE FUNCTION AND FUNCTION CALL
-// SHOULD ONLY BE USED IF A PLAYER CLICKS TWO PLAYERS. SHOULD NOT BE USED IF PLAYER 1 SELECTED
-// $('#players2').on('click', function (){
-// 	//function to change players. Function is called when time is 0
-// 	function toggle() {
-// 		if(whosTurn === 0) { 
-// 			whosTurn = 1;
-// 		} else {
-// 			whosTurn = 0;
-// 		} console.log("It's " + players[whosTurn] + " turn.")
-// 	}
-// })
-
-// toggle();
-
-
 
 
 //RA Notes:
 // let frameCount = 0; // 60 hz
-let theAnimation;
+// let theAnimation;
 
 function clamp(val, min, max) {
 	return Math.max(min, Math.min(max, val))
@@ -249,7 +224,7 @@ document.addEventListener('keydown', function(event){
 let timer;
 //timer
 const setTimer = () => {
-	/*const*/ timer = setInterval ( () => {
+	timer = setInterval ( () => {
 
 		if(time % 2 === 0) {
 			makePopcorn();
@@ -261,28 +236,27 @@ const setTimer = () => {
 
 		time--
 
-		if(time === 0 && whosTurn === 0) {
+		if(time === 0 && whosTurn === 0 && players.length === 1) {
 			clearInterval(timer)
-			control = false;
 			round++;
 			player1Scores.push(score);
-			whosTurn = 1;
 			
-			// toggle();
-			// const clickHandler = (e) => {
-			// 	const startDiv = $(e.currentTarget).detach();
-
-			// 	$(e.currentTarget).text('Start next round')
-			// }
-		} else if(time === 0 && whosTurn === 1) {
-			clearInterval(timer)
-			control = false;
-			round++;
-			player2Scores.push(score);
-			whosTurn = 0;
+		} else if(time === 0 && players.length === 2) {
+			if(whosTurn === 0) {
+				clearInterval(timer)
+				round++;
+				player1Scores.push(score);	
+				whosTurn = 1;			
+			} else {
+				clearInterval(timer)
+				round ++;
+				player2Scores.push(score);
+				whosTurn = 0;
+			}
 		}
 
 		$('#timer').text('timer: ' + time + ' seconds')
+		reportScore();
 	}, 1000);
 }
 
@@ -295,101 +269,106 @@ const setUpRound = () => {
 			time = 20;
 			score = 0;
 			$('#round').text('round: ' + round);
-			$('#scoreboard').text('Score: ' + score)
+			$('#scoreboard').text('score: ' + score)
 		} else if (round === 2) {
 			time = 20;
 			score = 0;
 			$('#round').text('round: ' + round);
-			$('#scoreboard').text('Score: ' + score)
+			$('#scoreboard').text('score: ' + score)
 		} else if (round === 3) {
 			time = 20;
 			score = 0;
 			$('#round').text('round: ' + round);
-			$('#scoreboard').text('Score: ' + score)	
-		} else {
-			$('#timer').text('Game Over!')
-		}
+			$('#scoreboard').text('score: ' + score)	
+		} 
 	//runs if two players is clicked on
 	} else if(players.length === 2) {
 		if(round === 1){
 			time = 20;
 			score = 0;
-			$('#round').text('Round: 1')
-			$('#scoreboard').text('Score: ' + score)
+			$('#round').text('round: 1')
+			$('#scoreboard').text('score: ' + score)
 		} else if (round === 2) {
 			time = 20;
 			score = 0;
-			$('#round').text('Round: 1')
-			$('#scoreboard').text('Score: ' + score)
+			$('#round').text('round: 1')
+			$('#scoreboard').text('score: ' + score)
 		} else if (round === 3) {
 			time = 20;
 			score = 0;
-			$('#round').text('Round: 2')
-			$('#scoreboard').text('Score: ' + score)
+			$('#round').text('round: 2')
+			$('#scoreboard').text('score: ' + score)
 		} else if (round === 4) {
 			time = 20;
 			score = 0;
-			$('#round').text('Round: 2')	
-			$('#scoreboard').text('Score: ' + score)	
+			$('#round').text('round: 2')	
+			$('#scoreboard').text('score: ' + score)	
 		} else if (round === 5) {
 			time = 20;
 			score = 0;
-		$('#round').text('Round: 3')
-		$('#scoreboard').text('Score: ' + score)
+		$('#round').text('round: 3')
+		$('#scoreboard').text('score: ' + score)
 		} else if (round === 6) {
 			time = 20;
 			score = 0;
-			$('#round').text('Round: 3')
-			$('#scoreboard').text('Score: ' + score)		
-		} else {
-			$('#timer').text('Game Over!')
-		}		
+			$('#round').text('round: 3')
+			$('#scoreboard').text('score: ' + score)		
+		} 		
 	}
 }
 
 
-// const reportScore = () => {
-// 		if(time === 0 && round === 4 && players.length === 1) {
-// 		$('#timer').text('')
-// 		$('#round').text('Game Over!')
-// 		$('#start').text('Play Again')
+const reportScore = () => {
+	if(time === 0 && round === 4 && players.length === 1) {
 
-// 		player1Scores.reduce(function(a,b) {
-// 			return finalScore = a + b
-// 		})
+		$('#timer').text('')
+		$('#round').text('Game Over!')
+		//need to change this - remove start button and add new play again button
+		$('#start').text('Play Again')
+
+		player1Scores.reduce(function(a,b) {
+			return finalScore = a + b
+		})
 			
-// 		$('#scoreboard').text('Final Score: ' + finalScore)
+		$('#scoreboard').text('Final Score: ' + finalScore)
 
-// 	} else if (time === 0 && round === 6 && players.length === 2) {
-// 		player1Scores.reduce(function(a,b) {
-// 		return finalScore1 = a + b	
-// 		console.log(player1Scores)
+	} else if (time === 0 && round === 7 && players.length === 2) {
 
-// 		player2Scores.reduce(function(a,b) {
-// 		return finalScore2 = a + b	
-// 		console.log(player2Scores)
-// 	})
+		player1Scores.reduce(function(a,b) {
+			finalScore1 = a + b	
+			return finalScore1
+		})			
 
-// 	displayWinner();	
-// }
+		player2Scores.reduce(function(a,b) {
+			finalScore2 = a + b	
+			return finalScore2			
+		})
+		displayWinner();
+	}
+}
 
 
 
-// function displayWinner = () {
-// 		if(finalScore1 > finalScore2) {
+const displayWinner = () => {
 
-// 			$('#scoreboard').text('Player 1 wins!')
+	if(finalScore1 > finalScore2) {
 
-// 		} else if (player1Scores === player2Scores) {
-// 			$('#scoreboard').text("It's a tie!")
+		$('#timer').text('Game Over!')
+		$('#round').text('Player 1 wins!')
+		$('#scoreboard').text('Player One: ' + finalScore1 + 'Player Two: ' + finalScore2)
 
-// 		} else {
-// 			$('#scoreboard').text('Player 2 wins!')
-// 		}
-// 	}
-// }
+	} else if (player1Scores === player2Scores) {
+		$('#timer').text('Game Over!')
+		$('#round').text("It's a tie!")
+		$('#scoreboard').text('Player One: ' + finalScore1 + 'Player Two: ' + finalScore2)
 
-// reportScore();
+	} else {
+		$('#timer').text('Game Over!')
+		$('#round').text('Player 2 wins!')
+		$('#scoreboard').text('Player One: ' + finalScore1 + ' Player Two: ' + finalScore2)
+	}
+}
+
 
 
 //NICE TO HAVES
