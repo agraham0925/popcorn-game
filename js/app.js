@@ -7,6 +7,8 @@ let round = 1;
 //controls if animation runs
 let theAnimation;
 
+const roundText = $('#round').text();
+
 //arrays to hold the kernels and popcorns created from classes
 let kernels = [];
 let popcorn = [];
@@ -124,8 +126,14 @@ function animateCanvas() {
 		ctx.fillStyle = "#fffbe5";
 		ctx.fill();
 		ctx.closePath();
-					
-		popcorn[i].body.y += 5
+
+		if(roundText === 'round: 1') {
+			popcorn[i].body.y += 6.5
+		} else if(roundText === 'round: 2') {
+			popcorn[i].body.y += 7.5
+		} else if(roundText === 'round: 3') {
+			popcorn[i].body.y += 8.5
+		}
 	}
 
 	//creates kernel pieces
@@ -136,7 +144,13 @@ function animateCanvas() {
 		ctx.fill();
 		ctx.closePath();
 
-		kernels[i].body.y += 5
+		if(roundText === 'round: 1') {
+			kernels[i].body.y += 7
+		} else if(roundText === 'round: 2') {
+			kernels[i].body.y += 8
+		} else if(roundText === 'round: 3') {
+			kernels[i].body.y += 8.5
+		}		
 	}
 
 	//popcorn bucket to catch popcorn
@@ -215,11 +229,11 @@ let timer;
 const setTimer = () => {
 	timer = setInterval ( () => {
 
-		if(time % 2 === 0) {
+		if(time % 1 === 0) {
 			makePopcorn();
 		}
 
-		if(time % 3 === 0) {
+		if(time % 2 === 0) {
 			makeKernels();
 		}
 
@@ -230,6 +244,7 @@ const setTimer = () => {
 			clearInterval(timer)
 			round++;
 			player1Scores.push(score);
+
 			window.cancelAnimationFrame(theAnimation);
 			kernels = [];
 			popcorn = [];
@@ -242,16 +257,24 @@ const setTimer = () => {
 				round++;
 				player1Scores.push(score);	
 				whosTurn = 1;	
-				window.cancelAnimationFrame(theAnimation);	
-				$('#whosTurn').text("It's Player Two's turn.")
+
+				window.cancelAnimationFrame(theAnimation);
+				kernels = [];
+				popcorn = [];
+				ctx.clearRect(0, 0, canvas.width, canvas.height);	
+				// $('#whosTurn').text("It's Player Two's turn.")
 
 			} else {
 				clearInterval(timer)
 				round ++;
 				player2Scores.push(score);
 				whosTurn = 0;
+				
 				window.cancelAnimationFrame(theAnimation);
-				$('#whosTurn').text("It's Player One's turn.")
+				kernels = [];
+				popcorn = [];
+				ctx.clearRect(0, 0, canvas.width, canvas.height);
+				// $('#whosTurn').text("It's Player One's turn.")
 			}
 		}
 
@@ -284,7 +307,7 @@ const setUpRound = () => {
 			$('#scoreboard').text('score: ' + score)	
 		} 
 
-	//runs if two players is clicked on
+	//runs if two players button is clicked on
 
 	} else if(players.length === 2) {
 		if(round === 1){
@@ -326,8 +349,8 @@ const reportScore = () => {
 	if(time === 0 && round === 4 && players.length === 1) {
 
 		$('#timer').text('')
-		$('#round').text('Game Over!')
-		$('#start').text('Play Again').on('click', function (e) {
+		$('#round').text('game over!')
+		$('#start').text('play again').on('click', function (e) {
 			location.reload();
 		})
 
@@ -335,7 +358,7 @@ const reportScore = () => {
 			return finalScore = a + b
 		})
 			
-		$('#scoreboard').text('Final Score: ' + finalScore)
+		$('#scoreboard').text('final Score: ' + finalScore)
 
 	} else if (time === 0 && round === 7 && players.length === 2) {
 
@@ -356,12 +379,19 @@ const reportScore = () => {
 // if two players, this function called to declare/display winner and final scores
 const displayWinner = () => {
 
-		$('#timer').text('Game Over!')
-		$('#scoreboard').text('Player One: ' + finalScore1 + ' Player Two: ' + finalScore2)
+		$('#timer').text('game over!')
+		$('#scoreboard').text('player one: ' + finalScore1 + ' player two: ' + finalScore2)
 
 	if(finalScore1 > finalScore2) {
 
-		$('#round').text('Player 1 wins!')
+		$('#round').text('player 1 wins!')
+		ctx.beginPath();
+
+		ctx.fillStyle = 'black';
+		ctx.font = '20px sans';
+		ctx.fillText("player 1 wins!", 300, 300)
+
+		ctx.closePath();
 
 	} else if (player1Scores === player2Scores) {
 
@@ -369,7 +399,15 @@ const displayWinner = () => {
 
 	} else {
 
-		$('#round').text('Player 2 wins!')
+		$('#round').text('player 2 wins!')
+
+		ctx.beginPath();
+
+		ctx.fillStyle = 'black';
+		ctx.font = '20px sans';
+		ctx.fillText("player 2 wins!", 300, 300)
+
+		ctx.closePath();
 
 	}
 }
