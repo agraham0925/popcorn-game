@@ -94,6 +94,7 @@ const bucket = {
 		w: 200,
 		h: 200,
 	},
+
 	direction: 'right',
 }
 
@@ -104,7 +105,6 @@ $('#start').on('click', function (e){
 	animateCanvas();
 
 	$('#start').text('Start Next Round')
-
 })
 
 
@@ -250,6 +250,8 @@ const setTimer = () => {
 			popcorn = [];
 			ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+			// roundText = "Time's up! Click Start Next Round to begin next round."
+
 
 		} else if(time === 0 && players.length === 2) {
 			if(whosTurn === 0) {
@@ -286,58 +288,45 @@ const setTimer = () => {
 
 //setup round of play
 const setUpRound = () => {
+	time = 20;
+	score = 0;
 
 	//one player mode is default
-
 	if(players.length === 1) {
 		if(round === 1){
-			time = 20;
-			score = 0;
 			$('#round').text('round: ' + round);
 			$('#scoreboard').text('score: ' + score)
 		} else if (round === 2) {
-			time = 20;
-			score = 0;
 			$('#round').text('round: ' + round);
 			$('#scoreboard').text('score: ' + score)
 		} else if (round === 3) {
-			time = 20;
-			score = 0;
 			$('#round').text('round: ' + round);
 			$('#scoreboard').text('score: ' + score)	
 		} 
 
 	//runs if two players button is clicked on
-
 	} else if(players.length === 2) {
 		if(round === 1){
-			time = 20;
-			score = 0;
 			$('#round').text('round: 1')
 			$('#scoreboard').text('score: ' + score)
+
 		} else if (round === 2) {
-			time = 20;
-			score = 0;
 			$('#round').text('round: 1')
 			$('#scoreboard').text('score: ' + score)
+
 		} else if (round === 3) {
-			time = 20;
-			score = 0;
 			$('#round').text('round: 2')
 			$('#scoreboard').text('score: ' + score)
+
 		} else if (round === 4) {
-			time = 20;
-			score = 0;
 			$('#round').text('round: 2')	
-			$('#scoreboard').text('score: ' + score)	
+			$('#scoreboard').text('score: ' + score)
+
 		} else if (round === 5) {
-			time = 20;
-			score = 0;
-		$('#round').text('round: 3')
-		$('#scoreboard').text('score: ' + score)
+			$('#round').text('round: 3')
+			$('#scoreboard').text('score: ' + score)
+
 		} else if (round === 6) {
-			time = 20;
-			score = 0;
 			$('#round').text('round: 3')
 			$('#scoreboard').text('score: ' + score)		
 		} 		
@@ -380,7 +369,7 @@ const reportScore = () => {
 const displayWinner = () => {
 
 		$('#timer').text('game over!')
-		$('#scoreboard').text('player one: ' + finalScore1 + ' player two: ' + finalScore2)
+		$('#scoreboard').text('player one: ' + finalScore1 + '   player two: ' + finalScore2)
 
 	if(finalScore1 > finalScore2) {
 
@@ -388,8 +377,8 @@ const displayWinner = () => {
 		ctx.beginPath();
 
 		ctx.fillStyle = 'black';
-		ctx.font = '20px sans';
-		ctx.fillText("player 1 wins!", 300, 300)
+		ctx.font = '20px Bree Serif';
+		ctx.fillText("player 1 wins!", 250, 300)
 
 		ctx.closePath();
 
@@ -404,8 +393,8 @@ const displayWinner = () => {
 		ctx.beginPath();
 
 		ctx.fillStyle = 'black';
-		ctx.font = '20px sans';
-		ctx.fillText("player 2 wins!", 300, 300)
+		ctx.font = '20px Bree Serif';
+		ctx.fillText("player 2 wins!", 250, 300)
 
 		ctx.closePath();
 
