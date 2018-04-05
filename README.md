@@ -7,7 +7,7 @@ How to Play:
 	- Each round, collect as many popcorn kernels as you can in your bucket
 	- Each kernel collected in the bucket gives you 1 point
 	- Collect an unpopped kernel, lose 1-3 points (point value for unpopped kernels is random!)
-	- Player with the most points at the end of 5 rounds wins!
+	- Player with the most points at the end of 3 rounds wins!
 
 USER STORIES:
 //ADD PHOTOS HERE
@@ -17,7 +17,7 @@ USER STORIES:
 	- User gets 1 point for each popcorn kernel collected in the bucket
 	- Lose points for each unpopped kernel collected in the bucket
 		* point value is randomized between 1-3 points
-	- User with most points after 5 rounds wins
+	- User with most points after 3 rounds wins
 
 	- Rounds:
 		*five total, 30 seconds each

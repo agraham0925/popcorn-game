@@ -4,6 +4,9 @@ let score = 0;
 let time = 20;
 let round = 1;
 
+//controls if animation runs
+// let control = false;
+let theAnimation;
 
 //arrays to hold the kernels and popcorns created from classes
 const kernels = [];
@@ -70,14 +73,8 @@ function makePopcorn() {
 
 	const popcornPiece = new Popcorn();
 
-	// add to array of popcorn
-	popcorn.push(popcornPiece)
 
-	//RA Notes:
-	// console.log("we just made a popcorn...")
-	// console.log(Array.from(popcorn))
-	// console.log(popcorn[popcorn.length-1])
-	// console.log('------that was all the popcorns and the last popcorn')
+	popcorn.push(popcornPiece)
 }
 
 function makeKernels() {
@@ -105,21 +102,27 @@ $('#start').on('click', function (e){
 
 	animateCanvas();
 
+	// control = true;
+
 	$('#start').text('Start Next Round')
 
 })
 
+// function playAnimation() {
+// 	if(control === true) {
+// 		animateCanvas();
+// 	} else  if (control === false){
+// 		ctx.clearRect(0, 0, canvas.width, canvas.height);
+// 	}
+// }
 
-//RA Notes:
-// let frameCount = 0; // 60 hz
-// let theAnimation;
+// playAnimation();
 
 function clamp(val, min, max) {
 	return Math.max(min, Math.min(max, val))
 }
 
-// popcorn shape appears and moves on screen
-// this will get run 60 times per second
+
 function animateCanvas() {
 
 	theAnimation = window.requestAnimationFrame(animateCanvas);
@@ -156,9 +159,8 @@ function animateCanvas() {
 	ctx.closePath();
 
 
-	// RA notes: if(frameCount % 60 == 30) console.log("about to do for loop for frameCount: " + frameCount )
-	//Collision Detection
-	for(let i = 0; i < popcorn.length; i++) { //if(frameCount % 60 == 30) { console.log("collision detection popcorn..." + i); console.log(popcorn[i]) }
+	//Collision Detection - if popcorn or kernel hits bucket
+	for(let i = 0; i < popcorn.length; i++) { 
 
 		// Find the closest point to the circle (popcorn) within the rectangle (bucket)
 		const closestX = clamp(popcorn[i].body.x, bucket.body.x, bucket.body.x + bucket.body.w);
@@ -180,7 +182,6 @@ function animateCanvas() {
 			popcorn.splice(i, 1);
 		}
 	}
-	// RA notes: frameCount++;
 
 		for(let i = 0; i < kernels.length; i++) {
 
@@ -236,22 +237,29 @@ const setTimer = () => {
 
 		time--
 
+		//one player score saved for the round
 		if(time === 0 && whosTurn === 0 && players.length === 1) {
 			clearInterval(timer)
 			round++;
 			player1Scores.push(score);
-			
+			window.cancelAnimationFrame(theAnimation);
+
 		} else if(time === 0 && players.length === 2) {
 			if(whosTurn === 0) {
 				clearInterval(timer)
 				round++;
 				player1Scores.push(score);	
-				whosTurn = 1;			
+				whosTurn = 1;	
+				control = false;
+				window.cancelAnimationFrame(theAnimation);	
+
 			} else {
 				clearInterval(timer)
 				round ++;
 				player2Scores.push(score);
 				whosTurn = 0;
+				control = false;
+				window.cancelAnimationFrame(theAnimation);
 			}
 		}
 
@@ -263,7 +271,9 @@ const setTimer = () => {
 
 //setup round of play
 const setUpRound = () => {
+
 	//one player mode is default
+
 	if(players.length === 1) {
 		if(round === 1){
 			time = 20;
@@ -281,7 +291,9 @@ const setUpRound = () => {
 			$('#round').text('round: ' + round);
 			$('#scoreboard').text('score: ' + score)	
 		} 
+
 	//runs if two players is clicked on
+
 	} else if(players.length === 2) {
 		if(round === 1){
 			time = 20;
@@ -323,7 +335,6 @@ const reportScore = () => {
 
 		$('#timer').text('')
 		$('#round').text('Game Over!')
-		//need to change this - remove start button and add new play again button
 		$('#start').text('Play Again')
 
 		player1Scores.reduce(function(a,b) {
@@ -348,7 +359,7 @@ const reportScore = () => {
 }
 
 
-
+// if two players, this function called to declare/display winner and final scores
 const displayWinner = () => {
 
 	if(finalScore1 > finalScore2) {
