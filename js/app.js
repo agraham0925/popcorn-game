@@ -7,7 +7,7 @@ let round = 1;
 //controls if animation runs
 let theAnimation;
 
-const roundText = $('#round').text();
+let roundText = $('#round').text();
 
 //arrays to hold the kernels and popcorns created from classes
 let kernels = [];
@@ -20,6 +20,7 @@ players[0] = "Player 1";
 //one player mode is default. This button must be clicked for two players
 $('#players2').on('click', function (e) {
 	players.push("Player 2")
+	$('#whosTurn').text("Player One starts.")
 })
 
 //determines whos turn it is in 2-player mode
@@ -135,11 +136,11 @@ function animateCanvas() {
 		ctx.fill();
 		ctx.closePath();
 
-		if(roundText === 'round: 1') {
-			popcorn[i].body.y += 6.5
-		} else if(roundText === 'round: 2') {
-			popcorn[i].body.y += 7.8
-		} else if(roundText === 'round: 3') {
+		if (roundText === 'round: 1') {
+			popcorn[i].body.y += 6
+		} else if (roundText === 'round: 2') {
+			popcorn[i].body.y += 7
+		} else if (roundText === 'round: 3') {
 			popcorn[i].body.y += 8.5
 		}
 	}
@@ -152,11 +153,11 @@ function animateCanvas() {
 		ctx.fill();
 		ctx.closePath();
 
-		if(roundText === 'round: 1') {
+		if (roundText === 'round: 1') {
 			kernels[i].body.y += 7
-		} else if(roundText === 'round: 2') {
+		} else if (roundText === 'round: 2') {
 			kernels[i].body.y += 8
-		} else if(roundText === 'round: 3') {
+		} else if (roundText === 'round: 3') {
 			kernels[i].body.y += 8.5
 		}		
 	}
@@ -258,8 +259,6 @@ const setTimer = () => {
 			kernels = [];
 			popcorn = [];
 			ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-			// roundText = "Time's up! Click Start Next Round to begin next round."
 
 
 		} else if(time === 0 && players.length === 2) {
