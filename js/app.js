@@ -85,7 +85,7 @@ function makeKernels() {
 }
 
 
-//for popcorn bucket
+// popcorn bucket
 const bucket = {
 	body: {
 		x: 300,
@@ -379,6 +379,9 @@ const displayWinner = () => {
 
 		$('#round').text('game over!')
 		$('#scoreboard').text('Player one: ' + finalScore1 + ' Player two: ' + finalScore2)
+		$('#start').text('Play again').on('click', function (e) {
+			location.reload();
+		})
 
 	if(finalScore1 > finalScore2) {
 
