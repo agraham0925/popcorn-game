@@ -9,9 +9,9 @@ This game was created as my first solo project in General Assembly's WDI course.
 3. Collect an unpopped kernel, lose 1-3 points (point value for unpopped kernels is random!).
 4. Player with the most points at the end of 3 rounds wins.
 
-## User Stories and WireFrams:
+## User Stories and WireFrames:
 
-![alt text](https://drive.google.com/file/d/0B2lKkBCaGtbxWk1ob29SZE50VVJrendIb3Z1T1dKMEZEWmNJ/view?usp=sharing)
+[Wireframes](https://drive.google.com/file/d/0B2lKkBCaGtbxWk1ob29SZE50VVJrendIb3Z1T1dKMEZEWmNJ/view?usp=sharing)
 	
 1. User selects 1-2 players.
 2. Hit start to begin play.
