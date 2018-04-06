@@ -14,13 +14,12 @@ let kernels = [];
 let popcorn = [];
 
 //array for number of players 
-const players = [];
+let players = [];
 players[0] = "Player 1";
 
 //one player mode is default. This button must be clicked for two players
 $('#players2').on('click', function (e) {
 	players.push("Player 2")
-	console.log('there are now two players')
 })
 
 //determines whos turn it is in 2-player mode
@@ -38,7 +37,6 @@ let finalScore2 = 0;
 
 const canvas = document.getElementById('mycanvas');
 const ctx = canvas.getContext('2d');
-
 
 
 //unpopped kernels class
@@ -113,6 +111,16 @@ function clamp(val, min, max) {
 }
 
 
+function whosTurnDisplay () {
+	if(players.length === 2 && whosTurn === 0) {
+		$('#whosTurn').text("It's Player One's turn.")
+	} else if(players.length === 2 && whosTurn === 1) {
+		$('#whosTurn').text("It's Player Two's turn.")
+	} else {
+		$('#whosTurn').text("Good luck!")
+	}
+}
+
 function animateCanvas() {
 
 	theAnimation = window.requestAnimationFrame(animateCanvas);
@@ -130,7 +138,7 @@ function animateCanvas() {
 		if(roundText === 'round: 1') {
 			popcorn[i].body.y += 6.5
 		} else if(roundText === 'round: 2') {
-			popcorn[i].body.y += 7.5
+			popcorn[i].body.y += 7.8
 		} else if(roundText === 'round: 3') {
 			popcorn[i].body.y += 8.5
 		}
@@ -156,7 +164,8 @@ function animateCanvas() {
 	//popcorn bucket to catch popcorn
 	ctx.beginPath();
 	ctx.rect(bucket.body.x, bucket.body.y, bucket.body.w, bucket.body.h);
-	ctx.fillStyle = ("#b7282f");
+	
+	ctx.fillStyle = '#b7282f';
 	ctx.fill();
 	ctx.closePath();
 
@@ -201,7 +210,7 @@ function animateCanvas() {
 
 			//point value of kernel decreased from score if collision occurs 
 			score = score - kernels[i].points
-			$('#scoreboard').text('scoreboard: ' + score)
+			$('#scoreboard').text('score: ' + score)
 
 			// delete the kernel
 			kernels.splice(i, 1);
@@ -281,6 +290,7 @@ const setTimer = () => {
 		}
 
 		$('#timer').text('timer: ' + time + ' seconds')
+		whosTurnDisplay();
 		reportScore();
 	}, 1000);
 }
@@ -338,8 +348,8 @@ const reportScore = () => {
 	if(time === 0 && round === 4 && players.length === 1) {
 
 		$('#timer').text('')
-		$('#round').text('game over!')
-		$('#start').text('play again').on('click', function (e) {
+		$('#round').text('Game over!')
+		$('#start').text('Play again').on('click', function (e) {
 			location.reload();
 		})
 
@@ -347,7 +357,7 @@ const reportScore = () => {
 			return finalScore = a + b
 		})
 			
-		$('#scoreboard').text('final Score: ' + finalScore)
+		$('#scoreboard').text('Final Score: ' + finalScore)
 
 	} else if (time === 0 && round === 7 && players.length === 2) {
 
@@ -368,33 +378,39 @@ const reportScore = () => {
 // if two players, this function called to declare/display winner and final scores
 const displayWinner = () => {
 
-		$('#timer').text('game over!')
-		$('#scoreboard').text('player one: ' + finalScore1 + '   player two: ' + finalScore2)
+		$('#round').text('game over!')
+		$('#scoreboard').text('Player one: ' + finalScore1 + ' Player two: ' + finalScore2)
 
 	if(finalScore1 > finalScore2) {
 
-		$('#round').text('player 1 wins!')
+		$('#timer').text('player 1 wins!')
 		ctx.beginPath();
 
-		ctx.fillStyle = 'black';
-		ctx.font = '20px Bree Serif';
-		ctx.fillText("player 1 wins!", 250, 300)
+		ctx.fillStyle = '#fffbe5';
+		ctx.font = '40px Bree Serif';
+		ctx.fillText("Player 1 wins!", 200, 300)
 
 		ctx.closePath();
 
 	} else if (player1Scores === player2Scores) {
 
-		$('#round').text("It's a tie!")
+		ctx.beginPath();
+
+		ctx.fillStyle = '#fffbe5';
+		ctx.font = '40px Bree Serif';
+		ctx.fillText("It's a tie!", 200, 300)
+
+		ctx.closePath();
 
 	} else {
 
-		$('#round').text('player 2 wins!')
+		$('#timer').text('player 2 wins!')
 
 		ctx.beginPath();
 
-		ctx.fillStyle = 'black';
-		ctx.font = '20px Bree Serif';
-		ctx.fillText("player 2 wins!", 250, 300)
+		ctx.fillStyle = '#fffbe5';
+		ctx.font = '40px Bree Serif';
+		ctx.fillText("Player 2 wins!", 200, 300)
 
 		ctx.closePath();
 

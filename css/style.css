@@ -13,7 +13,7 @@ h1 {
 
 p {
 	font-family: 'Bree Serif', serif;
-	font-size: 18px;
+	font-size: 20px;
 	color: white;
 	margin-left: 10px;
 }
@@ -48,15 +48,23 @@ h2 {
 }
 
 .button {
-	border-style: dotted;
+	border-style: none;
 	border-color: white;
-	color: white;
+	color: #b7282f;
 	font-weight: 700;
-	font-size: 18px;
+	font-size: 20px;
 	margin-right: 10px;
-	background-color: #b7282f;
+	background-color: white;
 	padding: 20px;
 	font-family: 'Bree Serif', serif;
+}
+
+#whosTurn {
+	padding: 20px;
+	margin-top: 10px;
+	font-family: 'Bree Serif', serif;
+	font-size: 20px;
+	color: white;
 }
 
 .buttons {
